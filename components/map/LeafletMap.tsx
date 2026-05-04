@@ -70,10 +70,17 @@ export default function LeafletMap({
       // Use a foreign object approach — embed an img that loads our SVG component
       // Instead, we use an SVG overlay via Leaflet's built-in SVGOverlay
       // The SVG content is inlined below as a data URI
-      const svgUrl = '/map/aeloria-base.svg'
+      // Base map layer — prefer AI-generated PNG, fall back to SVG
+      // Generate the PNG by running: node scripts/generate-map.mjs
+      const hasPng = await new Promise<boolean>((resolve) => {
+        const img = new Image()
+        img.onload  = () => resolve(true)
+        img.onerror = () => resolve(false)
+        img.src = '/map/aeloria-map.png?' + Date.now()
+      })
+      const mapImageUrl = hasPng ? '/map/aeloria-map.png' : '/map/aeloria-base.svg'
 
-      // Use imageOverlay with the SVG file
-      L.imageOverlay(svgUrl, bounds, {
+      L.imageOverlay(mapImageUrl, bounds, {
         opacity: 1,
         interactive: false,
       }).addTo(map)
