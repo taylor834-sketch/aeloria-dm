@@ -96,8 +96,11 @@ create table if not exists factions (
 );
 
 -- wire faction_id foreign key now that factions table exists
-alter table npcs add constraint fk_npc_faction
-  foreign key (faction_id) references factions(id);
+do $$ begin
+  alter table npcs add constraint fk_npc_faction
+    foreign key (faction_id) references factions(id);
+exception when duplicate_object then null;
+end $$;
 
 -- ─────────────────────────────────────────────
 -- PLAYER ↔ FACTION REPUTATION
