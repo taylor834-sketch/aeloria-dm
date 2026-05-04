@@ -1,314 +1,480 @@
 <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" width="1000" height="700">
-  <defs>
-    <filter id="parchment" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
-      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
-      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
-      <feComponentTransfer in="blended">
-        <feFuncR type="linear" slope="0.9" intercept="0.05"/>
-        <feFuncG type="linear" slope="0.85" intercept="0.04"/>
-        <feFuncB type="linear" slope="0.7" intercept="0.02"/>
-      </feComponentTransfer>
-    </filter>
-    <filter id="wobble" x="-2%" y="-2%" width="104%" height="104%">
-      <feTurbulence type="turbulence" baseFrequency="0.012" numOctaves="4" seed="8" result="turbulence"/>
-      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="3" dy="4" stdDeviation="6" flood-color="#1a0a00" flood-opacity="0.5"/>
-    </filter>
-    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
-      <stop offset="55%" stop-color="transparent"/>
-      <stop offset="100%" stop-color="#0d0806" stop-opacity="0.75"/>
-    </radialGradient>
-    <radialGradient id="oceanGrad" cx="40%" cy="35%" r="75%">
-      <stop offset="0%" stop-color="#1e3d5c"/>
-      <stop offset="100%" stop-color="#091520"/>
-    </radialGradient>
-    <linearGradient id="parchBase" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f0e8cc"/>
-      <stop offset="50%" stop-color="#e8d8b0"/>
-      <stop offset="100%" stop-color="#d8c898"/>
-    </linearGradient>
-    <linearGradient id="dreadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ddeaf5"/>
-      <stop offset="100%" stop-color="#b8ccd8"/>
-    </linearGradient>
-    <linearGradient id="veilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3a6a3a"/>
-      <stop offset="100%" stop-color="#1e4a1e"/>
-    </linearGradient>
-    <linearGradient id="ashenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#9a9088"/>
-      <stop offset="100%" stop-color="#6a6058"/>
-    </linearGradient>
-    <linearGradient id="aranthorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ccc088"/>
-      <stop offset="100%" stop-color="#b8aa70"/>
-    </linearGradient>
-    <linearGradient id="darianGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8898aa"/>
-      <stop offset="100%" stop-color="#607080"/>
-    </linearGradient>
-    <linearGradient id="sapphireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4a8898"/>
-      <stop offset="100%" stop-color="#2a6878"/>
-    </linearGradient>
-  </defs>
+<defs>
+  <!-- FILTERS -->
+  <filter id="landShadow" x="-5%" y="-5%" width="115%" height="115%">
+    <feDropShadow dx="5" dy="8" stdDeviation="10" flood-color="#0a0402" flood-opacity="0.65"/>
+  </filter>
+  <filter id="wobble" x="-3%" y="-3%" width="106%" height="106%">
+    <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="3" seed="12" result="turb"/>
+    <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="parchTex" x="-2%" y="-2%" width="104%" height="104%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
+    <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+    <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blend"/>
+    <feComponentTransfer in="blend">
+      <feFuncR type="linear" slope="0.92" intercept="0.04"/>
+      <feFuncG type="linear" slope="0.88" intercept="0.03"/>
+      <feFuncB type="linear" slope="0.78" intercept="0.02"/>
+    </feComponentTransfer>
+  </filter>
+  <filter id="textGlow">
+    <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-color="#f0e4b0" flood-opacity="0.6"/>
+  </filter>
 
-  <!-- Ocean base -->
-  <rect width="1000" height="700" fill="url(#oceanGrad)"/>
+  <!-- GRADIENTS -->
+  <radialGradient id="oceanGrad" cx="45%" cy="40%" r="72%">
+    <stop offset="0%" stop-color="#2b5c8a"/>
+    <stop offset="60%" stop-color="#1a3d5c"/>
+    <stop offset="100%" stop-color="#0d2030"/>
+  </radialGradient>
+  <linearGradient id="landBase" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#f0e6c8"/>
+    <stop offset="50%" stop-color="#eadcb8"/>
+    <stop offset="100%" stop-color="#dfd0a8"/>
+  </linearGradient>
+  <linearGradient id="dreadGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+    <stop offset="0%" stop-color="#ccd8e4"/>
+    <stop offset="100%" stop-color="#a4b4c4"/>
+  </linearGradient>
+  <linearGradient id="veilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#284e1e"/>
+    <stop offset="100%" stop-color="#183c14"/>
+  </linearGradient>
+  <linearGradient id="ashenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#948478"/>
+    <stop offset="100%" stop-color="#645c54"/>
+  </linearGradient>
+  <linearGradient id="aranthorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#d8c87c"/>
+    <stop offset="100%" stop-color="#c4b464"/>
+  </linearGradient>
+  <linearGradient id="darianGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#7484a4"/>
+    <stop offset="100%" stop-color="#56647c"/>
+  </linearGradient>
+  <linearGradient id="sapphireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#286474"/>
+    <stop offset="100%" stop-color="#184858"/>
+  </linearGradient>
+  <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
+    <stop offset="50%" stop-color="transparent"/>
+    <stop offset="100%" stop-color="#080402" stop-opacity="0.82"/>
+  </radialGradient>
 
-  <!-- === CONTINENT LANDMASS === -->
-  <g filter="url(#shadow)">
-    <path d="M 65,90 L 278,75 L 600,72 L 660,72 L 810,90 L 910,110 L 920,300 L 910,490 L 885,580 L 850,645 L 700,670 L 540,685 L 370,682 L 220,660 L 112,625 L 65,570 L 55,420 L 65,280 Z"
-      fill="url(#parchBase)" stroke="#8b6914" stroke-width="2" filter="url(#wobble)"/>
-  </g>
-  <!-- Parchment texture overlay on land -->
-  <path d="M 65,90 L 278,75 L 600,72 L 660,72 L 810,90 L 910,110 L 920,300 L 910,490 L 885,580 L 850,645 L 700,670 L 540,685 L 370,682 L 220,660 L 112,625 L 65,570 L 55,420 L 65,280 Z"
-    fill="url(#parchment)" opacity="0.42"/>
+  <!-- WAVE PATTERN -->
+  <pattern id="wavePattern" x="0" y="0" width="44" height="18" patternUnits="userSpaceOnUse">
+    <path d="M 0,9 C 5.5,4 11,14 16.5,9 C 22,4 27.5,14 33,9 C 38.5,4 44,9 44,9"
+      fill="none" stroke="#4a7a9a" stroke-width="0.75" opacity="0.5"/>
+  </pattern>
 
-  <!-- === REGION FILLS === -->
+  <!-- STIPPLE PATTERN for plains -->
+  <pattern id="stipple" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="0.6" fill="#907848" opacity="0.45"/>
+    <circle cx="6" cy="5.5" r="0.5" fill="#907848" opacity="0.38"/>
+  </pattern>
 
-  <!-- DREADSPIRE PEAKS (NW) -->
-  <path d="M 65,90 L 278,75 L 278,325 L 65,325 Z"
-    fill="url(#dreadGrad)" opacity="0.72" filter="url(#wobble)"/>
+  <!-- MOUNTAIN SYMBOLS (origin at base-center, peak pointing up) -->
+  <symbol id="mL" overflow="visible">
+    <polygon points="0,-38 -22,0 1,-12" fill="#aab2a2"/>
+    <polygon points="0,-38 1,-12 22,0" fill="#4e5448"/>
+    <polygon points="0,-38 -8,-22 7,-22" fill="#e8ecf4" opacity="0.92"/>
+    <line x1="0" y1="-38" x2="1" y2="-12" stroke="#28302a" stroke-width="0.5" opacity="0.55"/>
+  </symbol>
+  <symbol id="mM" overflow="visible">
+    <polygon points="0,-27 -16,0 1,-9" fill="#a2aaa0"/>
+    <polygon points="0,-27 1,-9 16,0" fill="#464c42"/>
+    <polygon points="0,-27 -6,-15 5,-15" fill="#dce4ee" opacity="0.88"/>
+    <line x1="0" y1="-27" x2="1" y2="-9" stroke="#28302a" stroke-width="0.4" opacity="0.5"/>
+  </symbol>
+  <symbol id="mS" overflow="visible">
+    <polygon points="0,-18 -11,0 0,-6" fill="#9aa098"/>
+    <polygon points="0,-18 0,-6 11,0" fill="#3e4440"/>
+    <polygon points="0,-18 -4,-10 4,-10" fill="#d4dce8" opacity="0.82"/>
+  </symbol>
+  <symbol id="mF" overflow="visible">
+    <polygon points="0,-12 -8,0 0,-4" fill="#929890"/>
+    <polygon points="0,-12 0,-4 8,0" fill="#383e38"/>
+  </symbol>
 
-  <!-- VEILWOOD (N center-left) -->
-  <path d="M 278,75 L 600,72 L 628,200 L 600,340 L 278,325 Z"
-    fill="url(#veilGrad)" opacity="0.60" filter="url(#wobble)"/>
+  <!-- PINE TREE SYMBOLS (origin at trunk base) -->
+  <symbol id="pine" overflow="visible">
+    <polygon points="0,-17 -4,-8 4,-8" fill="#1c4c16"/>
+    <polygon points="0,-12 -5.5,-4 5.5,-4" fill="#286020"/>
+    <polygon points="0,-6 -6.5,0 6.5,0" fill="#184812"/>
+    <rect x="-1" y="0" width="2" height="3" fill="#482e0e"/>
+  </symbol>
+  <symbol id="pS" overflow="visible">
+    <polygon points="0,-12 -3,-6 3,-6" fill="#1c4c16"/>
+    <polygon points="0,-8 -4,-3 4,-3" fill="#286020"/>
+    <polygon points="0,-4 -4.5,0 4.5,0" fill="#184812"/>
+    <rect x="-0.8" y="0" width="1.6" height="2" fill="#482e0e"/>
+  </symbol>
+  <symbol id="pT" overflow="visible">
+    <polygon points="0,-8 -2,-4 2,-4" fill="#1a4810"/>
+    <polygon points="0,-5 -3,0 3,0" fill="#1c4c16"/>
+  </symbol>
+</defs>
 
-  <!-- ASHEN MARCHES (W center) -->
-  <path d="M 65,325 L 278,325 L 308,455 L 300,610 L 122,640 L 65,575 Z"
-    fill="url(#ashenGrad)" opacity="0.68" filter="url(#wobble)"/>
+<!-- ═══════════════════════════════ OCEAN ═══════════════════════════════ -->
+<rect width="1000" height="700" fill="url(#oceanGrad)"/>
+<rect width="1000" height="700" fill="url(#wavePattern)"/>
 
-  <!-- ARANTHOR (center kingdom) -->
-  <path d="M 278,325 L 600,340 L 628,200 L 625,175 L 625,605 L 410,652 L 300,610 L 308,455 Z"
-    fill="url(#aranthorGrad)" opacity="0.60" filter="url(#wobble)"/>
+<!-- ═══════════════════════════ CONTINENT ════════════════════════════ -->
+<!-- Drop shadow -->
+<path d="M 70,94 C 80,88 104,85 134,83 C 164,81 222,80 284,80 C 346,79 424,78 494,77 C 544,76 580,76 604,77 C 628,77 646,76 664,77 C 700,78 756,86 816,95 C 862,102 893,110 916,116 L 926,308 L 914,496 C 908,536 897,563 889,585 C 876,616 864,634 854,650 C 840,663 812,670 764,673 L 704,675 C 672,677 613,684 544,690 C 502,693 444,692 374,687 C 322,683 274,675 224,665 C 186,656 152,642 116,630 C 88,617 70,600 67,574 C 61,548 56,505 57,423 C 57,390 59,350 64,320 L 67,284 Z"
+  fill="#060302" opacity="0.42" transform="translate(5,9)"/>
 
-  <!-- DARIAN EMPIRE (E) -->
-  <path d="M 625,175 L 810,90 L 910,110 L 920,300 L 910,490 L 885,580 L 850,645 L 675,658 L 625,605 Z"
-    fill="url(#darianGrad)" opacity="0.58" filter="url(#wobble)"/>
+<!-- Land base -->
+<path id="continent"
+  d="M 65,90 C 74,83 98,80 130,78 C 160,76 218,75 278,75 C 340,74 420,73 490,72 C 540,71 576,71 600,72 C 622,72 640,71 658,72 C 695,73 752,81 812,90 C 858,97 889,106 912,112 C 922,188 924,265 920,302 C 919,368 916,432 910,492 C 904,531 893,559 885,581 C 872,612 860,631 850,646 C 836,659 808,666 758,669 L 700,671 C 666,673 608,680 540,686 C 498,689 440,688 370,683 C 318,679 270,671 220,661 C 182,652 148,639 112,626 C 86,613 68,596 65,571 C 59,546 54,503 55,421 C 55,387 57,347 62,317 L 65,281 C 65,218 64,154 65,90 Z"
+  fill="url(#landBase)" stroke="#7a6012" stroke-width="2.2"/>
 
-  <!-- SAPPHIRE COAST (S strip) -->
-  <path d="M 300,610 L 625,605 L 675,658 L 850,645 L 700,670 L 540,685 L 370,682 L 220,660 L 122,640 Z"
-    fill="url(#sapphireGrad)" opacity="0.65" filter="url(#wobble)"/>
+<!-- Parchment texture overlay -->
+<path d="M 65,90 C 74,83 98,80 130,78 C 160,76 218,75 278,75 C 340,74 420,73 490,72 C 540,71 576,71 600,72 C 622,72 640,71 658,72 C 695,73 752,81 812,90 C 858,97 889,106 912,112 C 922,188 924,265 920,302 C 919,368 916,432 910,492 C 904,531 893,559 885,581 C 872,612 860,631 850,646 C 836,659 808,666 758,669 L 700,671 C 666,673 608,680 540,686 C 498,689 440,688 370,683 C 318,679 270,671 220,661 C 182,652 148,639 112,626 C 86,613 68,596 65,571 C 59,546 54,503 55,421 C 55,387 57,347 62,317 L 65,281 C 65,218 64,154 65,90 Z"
+  fill="url(#parchTex)" opacity="0.36"/>
 
-  <!-- === SHATTERED ISLES (NE islands in sea) === -->
-  <ellipse cx="808" cy="88" rx="88" ry="56" fill="#8aaabb" opacity="0.18"/>
-  <ellipse cx="798" cy="92" rx="44" ry="20" fill="#c4b88a" stroke="#8b6914" stroke-width="1.5" filter="url(#wobble)"/>
-  <ellipse cx="850" cy="67" rx="27" ry="13" fill="#c4b88a" stroke="#8b6914" stroke-width="1" filter="url(#wobble)"/>
-  <ellipse cx="752" cy="82" rx="20" ry="10" fill="#c4b88a" stroke="#8b6914" stroke-width="1" filter="url(#wobble)"/>
-  <ellipse cx="876" cy="108" rx="15" ry="8" fill="#c4b88a" stroke="#8b6914" stroke-width="0.8" filter="url(#wobble)"/>
+<!-- ═══════════════════════════ REGION FILLS ═══════════════════════════ -->
+<path d="M 65,90 C 98,80 218,75 278,75 L 278,325 L 65,325 Z"
+  fill="url(#dreadGrad)" opacity="0.66"/>
+<path d="M 278,75 C 380,73 490,72 600,72 L 628,200 L 600,340 L 278,325 Z"
+  fill="url(#veilGrad)" opacity="0.50"/>
+<path d="M 65,325 L 278,325 L 308,455 L 300,611 L 122,641 L 65,576 Z"
+  fill="url(#ashenGrad)" opacity="0.60"/>
+<path d="M 278,325 L 600,340 L 628,200 L 625,176 L 625,606 L 410,653 L 300,611 L 308,455 Z"
+  fill="url(#aranthorGrad)" opacity="0.53"/>
+<path d="M 625,176 L 812,90 C 858,97 889,106 912,112 L 920,302 L 910,492 L 885,581 L 850,646 L 675,659 L 625,606 Z"
+  fill="url(#darianGrad)" opacity="0.50"/>
+<path d="M 300,611 L 625,606 L 675,659 L 850,646 C 820,660 758,669 700,671 C 608,680 498,689 370,683 C 270,671 122,641 122,641 Z"
+  fill="url(#sapphireGrad)" opacity="0.58"/>
 
-  <!-- === DREADSPIRE PEAKS — mountain triangles === -->
-  <g fill="#7a8a96" stroke="#4a5a66" stroke-width="0.5" opacity="0.88">
-    <polygon points="108,108 94,135 122,135"/>
-    <polygon points="140,97 124,126 156,126"/>
-    <polygon points="175,88 158,119 192,119"/>
-    <polygon points="212,84 194,116 230,116"/>
-    <polygon points="250,86 232,116 268,116"/>
-    <polygon points="98,133 87,155 109,155" opacity="0.62"/>
-    <polygon points="130,124 119,146 141,146" opacity="0.62"/>
-    <polygon points="162,116 151,138 173,138" opacity="0.62"/>
-    <polygon points="196,112 185,134 207,134" opacity="0.62"/>
-    <polygon points="232,110 221,132 243,132" opacity="0.62"/>
-    <polygon points="265,112 254,132 276,132" opacity="0.55"/>
-    <polygon points="115,153 106,170 124,170" opacity="0.44"/>
-    <polygon points="150,143 141,160 159,160" opacity="0.44"/>
-    <polygon points="185,136 176,153 194,153" opacity="0.44"/>
-    <polygon points="220,130 211,148 229,148" opacity="0.44"/>
-    <polygon points="255,127 246,145 264,145" opacity="0.44"/>
-    <polygon points="95,175 84,198 106,198" opacity="0.46"/>
-    <polygon points="128,168 117,192 139,192" opacity="0.46"/>
-    <polygon points="162,163 151,187 173,187" opacity="0.46"/>
-    <polygon points="196,158 185,182 207,182" opacity="0.46"/>
-    <polygon points="232,155 221,179 243,179" opacity="0.46"/>
-    <polygon points="265,155 254,178 276,178" opacity="0.40"/>
-    <polygon points="78,210 68,230 88,230" opacity="0.38"/>
-    <polygon points="108,205 98,226 118,226" opacity="0.38"/>
-    <polygon points="138,200 128,222 148,222" opacity="0.38"/>
-    <polygon points="168,196 158,218 178,218" opacity="0.38"/>
-    <polygon points="200,192 190,214 210,214" opacity="0.38"/>
-    <polygon points="235,190 225,212 245,212" opacity="0.35"/>
-    <polygon points="268,190 258,212 278,212" opacity="0.32"/>
-  </g>
-  <!-- Snow caps on tallest peaks -->
-  <g fill="#eef4f8" opacity="0.80">
-    <polygon points="140,97 133,110 147,110"/>
-    <polygon points="175,88 168,103 182,103"/>
-    <polygon points="212,84 205,100 219,100"/>
-    <polygon points="250,86 243,101 257,101"/>
-  </g>
+<!-- Stipple on Aranthor plains -->
+<path d="M 278,325 L 600,340 L 628,200 L 625,176 L 625,606 L 410,653 L 300,611 L 308,455 Z"
+  fill="url(#stipple)" opacity="0.52"/>
 
-  <!-- === VEILWOOD — forest circles === -->
-  <g fill="#1e4a1e" opacity="0.48">
-    <circle cx="295" cy="115" r="13"/><circle cx="322" cy="108" r="12"/><circle cx="350" cy="112" r="13"/>
-    <circle cx="378" cy="106" r="12"/><circle cx="406" cy="110" r="13"/><circle cx="434" cy="108" r="12"/>
-    <circle cx="462" cy="112" r="13"/><circle cx="490" cy="108" r="12"/><circle cx="518" cy="112" r="13"/>
-    <circle cx="546" cy="106" r="12"/><circle cx="574" cy="110" r="11"/>
-    <circle cx="285" cy="145" r="13"/><circle cx="312" cy="138" r="13"/><circle cx="340" cy="142" r="14"/>
-    <circle cx="368" cy="136" r="13"/><circle cx="396" cy="140" r="14"/><circle cx="424" cy="136" r="13"/>
-    <circle cx="452" cy="140" r="14"/><circle cx="480" cy="136" r="13"/><circle cx="508" cy="140" r="14"/>
-    <circle cx="536" cy="136" r="13"/><circle cx="562" cy="138" r="12"/><circle cx="590" cy="135" r="11"/>
-    <circle cx="288" cy="172" r="13"/><circle cx="316" cy="165" r="14"/><circle cx="345" cy="170" r="13"/>
-    <circle cx="374" cy="164" r="14"/><circle cx="403" cy="168" r="14"/><circle cx="432" cy="164" r="13"/>
-    <circle cx="460" cy="168" r="14"/><circle cx="488" cy="163" r="13"/><circle cx="516" cy="167" r="14"/>
-    <circle cx="544" cy="163" r="13"/><circle cx="570" cy="165" r="12"/><circle cx="596" cy="162" r="11"/>
-    <circle cx="292" cy="200" r="14"/><circle cx="322" cy="193" r="14"/><circle cx="352" cy="198" r="14"/>
-    <circle cx="382" cy="192" r="14"/><circle cx="412" cy="196" r="14"/><circle cx="442" cy="192" r="13"/>
-    <circle cx="470" cy="196" r="14"/><circle cx="498" cy="191" r="13"/><circle cx="525" cy="195" r="14"/>
-    <circle cx="552" cy="190" r="13"/><circle cx="578" cy="193" r="12"/><circle cx="604" cy="190" r="11"/>
-    <circle cx="296" cy="228" r="14"/><circle cx="326" cy="222" r="14"/><circle cx="356" cy="226" r="14"/>
-    <circle cx="386" cy="220" r="14"/><circle cx="416" cy="224" r="14"/><circle cx="445" cy="219" r="13"/>
-    <circle cx="473" cy="223" r="14"/><circle cx="501" cy="218" r="13"/><circle cx="528" cy="222" r="14"/>
-    <circle cx="555" cy="217" r="13"/><circle cx="581" cy="220" r="12"/><circle cx="607" cy="218" r="11"/>
-    <circle cx="300" cy="256" r="13"/><circle cx="330" cy="250" r="14"/><circle cx="360" cy="254" r="13"/>
-    <circle cx="390" cy="248" r="14"/><circle cx="420" cy="252" r="13"/><circle cx="448" cy="247" r="13"/>
-    <circle cx="476" cy="251" r="13"/><circle cx="503" cy="246" r="13"/><circle cx="530" cy="250" r="13"/>
-    <circle cx="557" cy="245" r="12"/><circle cx="582" cy="248" r="12"/>
-    <circle cx="304" cy="284" r="12"/><circle cx="334" cy="278" r="13"/><circle cx="364" cy="282" r="12"/>
-    <circle cx="394" cy="276" r="13"/><circle cx="422" cy="280" r="12"/><circle cx="450" cy="275" r="12"/>
-    <circle cx="477" cy="279" r="12"/><circle cx="504" cy="274" r="12"/><circle cx="530" cy="278" r="12"/>
-    <circle cx="556" cy="273" r="11"/><circle cx="580" cy="276" r="11"/>
-    <circle cx="308" cy="308" r="11"/><circle cx="338" cy="303" r="12"/><circle cx="368" cy="307" r="11"/>
-    <circle cx="398" cy="302" r="12"/><circle cx="426" cy="306" r="11"/><circle cx="454" cy="301" r="11"/>
-    <circle cx="480" cy="305" r="11"/><circle cx="506" cy="300" r="11"/><circle cx="532" cy="304" r="11"/>
-    <circle cx="558" cy="300" r="10"/>
-  </g>
-  <!-- Veilwood canopy highlights -->
-  <g fill="#2a6a2a" opacity="0.28">
-    <circle cx="350" cy="142" r="8"/><circle cx="430" cy="136" r="7"/><circle cx="510" cy="140" r="8"/>
-    <circle cx="370" cy="165" r="8"/><circle cx="450" cy="163" r="7"/><circle cx="530" cy="167" r="8"/>
-    <circle cx="325" cy="193" r="7"/><circle cx="412" cy="196" r="8"/><circle cx="498" cy="191" r="7"/>
-    <circle cx="340" cy="226" r="7"/><circle cx="416" cy="219" r="8"/><circle cx="498" cy="222" r="7"/>
-    <circle cx="360" cy="254" r="7"/><circle cx="448" cy="247" r="8"/><circle cx="530" cy="250" r="7"/>
-  </g>
+<!-- Subtle region borders -->
+<g fill="none" stroke="#7a6018" stroke-width="1" stroke-dasharray="6,4" opacity="0.36">
+  <line x1="278" y1="75" x2="278" y2="325"/>
+  <line x1="65" y1="325" x2="278" y2="325"/>
+  <path d="M 278,325 C 440,332 540,336 600,340 L 628,200"/>
+  <path d="M 278,325 L 308,455 L 300,611"/>
+  <line x1="625" y1="176" x2="625" y2="606"/>
+  <path d="M 300,611 L 410,653 L 625,606"/>
+</g>
 
-  <!-- === ASHEN MARCHES — void dust circles === -->
-  <g fill="#787068" opacity="0.20">
-    <circle cx="100" cy="430" r="55"/><circle cx="145" cy="490" r="65"/><circle cx="188" cy="452" r="50"/>
-    <circle cx="122" cy="375" r="38"/><circle cx="210" cy="520" r="55"/><circle cx="158" cy="560" r="45"/>
-    <circle cx="240" cy="478" r="38"/><circle cx="88"  cy="500" r="42"/><circle cx="178" cy="590" r="35"/>
-    <circle cx="258" cy="540" r="30"/><circle cx="118" cy="540" r="38"/>
-  </g>
-  <!-- Hollow's Eye — void center -->
-  <circle cx="100" cy="480" r="22" fill="#b8a898" opacity="0.35"/>
-  <circle cx="100" cy="480" r="14" fill="#c8b8a8" opacity="0.28"/>
+<!-- ═══════════════════════ SHATTERED ISLES ═══════════════════════════ -->
+<ellipse cx="818" cy="85" rx="105" ry="62" fill="#4a7a9a" opacity="0.13"/>
+<ellipse cx="800" cy="90" rx="46" ry="22" fill="#e8daae" stroke="#7a6012" stroke-width="1.5"/>
+<ellipse cx="854" cy="68" rx="28" ry="13" fill="#e4d6a8" stroke="#7a6012" stroke-width="1.2"/>
+<ellipse cx="754" cy="80" rx="21" ry="10" fill="#e8daae" stroke="#7a6012" stroke-width="1.1"/>
+<ellipse cx="878" cy="106" rx="16" ry="8" fill="#e4d6a8" stroke="#7a6012" stroke-width="1"/>
+<ellipse cx="768" cy="106" rx="12" ry="7" fill="#e8daae" stroke="#7a6012" stroke-width="0.8"/>
+<ellipse cx="800" cy="90" rx="46" ry="22" fill="url(#parchTex)" opacity="0.28"/>
+<use href="#pT" x="796" y="90"/><use href="#pT" x="806" y="87"/><use href="#pT" x="788" y="92"/>
 
-  <!-- === RIVERS === -->
-  <g fill="none" stroke="#4a6a8a" stroke-width="1.8" opacity="0.52" stroke-linecap="round">
-    <!-- Main Aranthor river south to Sapphire Coast -->
-    <path d="M 490,360 C 494,405 498,448 494,495 C 490,535 488,565 492,605 C 494,628 498,648 496,665"/>
-    <!-- Western river along Ashen/Aranthor border -->
-    <path d="M 312,365 C 308,415 304,462 300,512 C 297,550 294,578 296,615"/>
-    <!-- Dreadspire meltwater streams -->
-    <path d="M 244,245 C 252,278 260,308 265,330"/>
-    <path d="M 196,260 C 204,292 210,322 214,365"/>
-    <!-- Veilwood stream -->
-    <path d="M 424,322 C 436,355 442,380 448,415"/>
-    <!-- Darian river -->
-    <path d="M 820,310 C 800,355 785,390 778,435"/>
-  </g>
+<!-- ═══════════════════════ DREADSPIRE MOUNTAINS ═══════════════════════ -->
+<!-- Back rows first (further = drawn first so front overlaps) -->
+<use href="#mL" x="108" y="118"/>
+<use href="#mL" x="152" y="110"/>
+<use href="#mL" x="197" y="104"/>
+<use href="#mL" x="241" y="100"/>
+<use href="#mM" x="272" y="106"/>
 
-  <!-- === ROADS === -->
-  <g fill="none" stroke="#9a7824" stroke-width="1.4" opacity="0.44" stroke-dasharray="7,5">
-    <!-- King's Highway: Vaelthorn → Dunmore → Lighthaven -->
-    <path d="M 450,380 C 468,402 488,422 500,448 C 512,465 545,472 575,476"/>
-    <!-- King's Road north toward Veilwood border -->
-    <path d="M 450,380 C 442,352 432,320 424,295"/>
-    <!-- Eastern Road: Vaelthorn → Darian border -->
-    <path d="M 450,380 C 508,372 558,362 608,350 C 634,344 648,342 660,338"/>
-    <!-- Darian main road: Ironwatch → Caldrath -->
-    <path d="M 640,340 C 680,358 730,370 778,380"/>
-    <!-- Southern Road: Vaelthorn → Sapphire Coast -->
-    <path d="M 450,380 C 455,432 462,482 466,535 C 470,578 476,628 480,658"/>
-    <!-- Fort Ashveil road -->
-    <path d="M 350,500 C 388,468 420,445 450,380" stroke-dasharray="5,6"/>
-  </g>
+<use href="#mM" x="88"  y="141"/>
+<use href="#mL" x="130" y="135"/>
+<use href="#mL" x="174" y="129"/>
+<use href="#mL" x="218" y="125"/>
+<use href="#mM" x="260" y="127"/>
+<use href="#mS" x="278" y="131"/>
 
-  <!-- === REGION LABELS === -->
-  <g font-family="Georgia, 'Times New Roman', serif" fill="#2a1a08" letter-spacing="2">
-    <!-- DREADSPIRE PEAKS -->
-    <text x="172" y="244" text-anchor="middle" font-size="10" font-style="italic" font-weight="bold" opacity="0.68" transform="rotate(-8,172,244)">DREADSPIRE</text>
-    <text x="172" y="258" text-anchor="middle" font-size="10" font-style="italic" font-weight="bold" opacity="0.68" transform="rotate(-8,172,258)">PEAKS</text>
+<use href="#mM" x="95"  y="163"/>
+<use href="#mM" x="138" y="157"/>
+<use href="#mM" x="182" y="152"/>
+<use href="#mM" x="226" y="149"/>
+<use href="#mM" x="268" y="151"/>
 
-    <!-- THE VEILWOOD -->
-    <text x="440" y="202" text-anchor="middle" font-size="12" font-style="italic" font-weight="bold" opacity="0.50" fill="#1a3a1a">THE VEILWOOD</text>
+<use href="#mM" x="88"  y="187"/>
+<use href="#mM" x="132" y="182"/>
+<use href="#mM" x="176" y="177"/>
+<use href="#mM" x="220" y="174"/>
+<use href="#mS" x="262" y="175"/>
+<use href="#mS" x="278" y="179"/>
 
-    <!-- ASHEN MARCHES -->
-    <text x="178" y="464" text-anchor="middle" font-size="10" font-style="italic" font-weight="bold" opacity="0.65" transform="rotate(-5,178,464)">ASHEN</text>
-    <text x="178" y="478" text-anchor="middle" font-size="10" font-style="italic" font-weight="bold" opacity="0.65" transform="rotate(-5,178,478)">MARCHES</text>
+<use href="#mS" x="98"  y="211"/>
+<use href="#mS" x="142" y="206"/>
+<use href="#mS" x="186" y="202"/>
+<use href="#mS" x="230" y="200"/>
+<use href="#mS" x="270" y="201"/>
 
-    <!-- ARANTHOR -->
-    <text x="462" y="448" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" opacity="0.50">ARANTHOR</text>
+<use href="#mS" x="108" y="234"/>
+<use href="#mS" x="152" y="230"/>
+<use href="#mS" x="196" y="227"/>
+<use href="#mF" x="240" y="225"/>
+<use href="#mF" x="276" y="227"/>
 
-    <!-- DARIAN EMPIRE -->
-    <text x="775" y="388" text-anchor="middle" font-size="11" font-style="italic" font-weight="bold" opacity="0.54" fill="#1a2a3a">DARIAN</text>
-    <text x="775" y="403" text-anchor="middle" font-size="11" font-style="italic" font-weight="bold" opacity="0.54" fill="#1a2a3a">EMPIRE</text>
+<use href="#mF" x="118" y="256"/>
+<use href="#mF" x="160" y="253"/>
+<use href="#mF" x="202" y="251"/>
+<use href="#mF" x="244" y="250"/>
+<use href="#mF" x="278" y="252"/>
 
-    <!-- SAPPHIRE COAST -->
-    <text x="448" y="648" text-anchor="middle" font-size="10" font-style="italic" opacity="0.62" fill="#0a2a38">SAPPHIRE COAST</text>
+<use href="#mF" x="128" y="276"/>
+<use href="#mF" x="170" y="274"/>
+<use href="#mF" x="212" y="273"/>
+<use href="#mF" x="254" y="273"/>
 
-    <!-- SHATTERED ISLES -->
-    <text x="808" y="125" text-anchor="middle" font-size="8" font-style="italic" opacity="0.62" fill="#2a3a4a">SHATTERED ISLES</text>
-  </g>
+<use href="#mF" x="140" y="297"/>
+<use href="#mF" x="182" y="295"/>
+<use href="#mF" x="224" y="294"/>
+<use href="#mF" x="264" y="295"/>
+<use href="#mF" x="278" y="298"/>
 
-  <!-- === COMPASS ROSE === -->
-  <g transform="translate(910,608)">
-    <circle r="28" fill="#f0e8cc" stroke="#8b6914" stroke-width="1.5" opacity="0.90"/>
-    <circle r="24" fill="none" stroke="#8b6914" stroke-width="0.5"/>
-    <polygon points="0,-24 -4,-10 4,-10" fill="#3d1f00"/>
-    <polygon points="0,24 -4,10 4,10" fill="#8b6914"/>
-    <polygon points="-24,0 -10,-4 -10,4" fill="#8b6914"/>
-    <polygon points="24,0 10,-4 10,4" fill="#8b6914"/>
-    <polygon points="0,-24 -2,-16 0,-20 2,-16" fill="#cc0000"/>
-    <circle r="3.5" fill="#3d1f00"/>
-    <circle r="2" fill="#f5d56e"/>
-    <text x="0" y="-29" text-anchor="middle" font-size="8" font-weight="bold" fill="#3d1f00" font-family="Georgia,serif">N</text>
-    <text x="0" y="38" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">S</text>
-    <text x="-34" y="3" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">W</text>
-    <text x="34" y="3" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">E</text>
-  </g>
+<!-- ═══════════════════════ VEILWOOD — PINE TREES ═══════════════════════ -->
+<!-- Distant background (tiny) -->
+<g opacity="0.68">
+  <use href="#pT" x="296" y="98"/><use href="#pT" x="318" y="95"/><use href="#pT" x="340" y="98"/>
+  <use href="#pT" x="362" y="95"/><use href="#pT" x="384" y="97"/><use href="#pT" x="406" y="94"/>
+  <use href="#pT" x="428" y="97"/><use href="#pT" x="450" y="94"/><use href="#pT" x="472" y="97"/>
+  <use href="#pT" x="494" y="94"/><use href="#pT" x="516" y="97"/><use href="#pT" x="538" y="94"/>
+  <use href="#pT" x="560" y="96"/><use href="#pT" x="582" y="93"/>
 
-  <!-- === SCALE BAR === -->
-  <g transform="translate(28,668)">
-    <rect x="0" y="0" width="80" height="7" fill="#3d1f00" opacity="0.70"/>
-    <rect x="0" y="0" width="40" height="7" fill="#f0e8cc" opacity="0.70"/>
-    <text x="40" y="17" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">50 leagues</text>
-  </g>
+  <use href="#pT" x="290" y="113"/><use href="#pT" x="314" y="110"/><use href="#pT" x="338" y="113"/>
+  <use href="#pT" x="362" y="110"/><use href="#pT" x="386" y="113"/><use href="#pT" x="410" y="110"/>
+  <use href="#pT" x="434" y="113"/><use href="#pT" x="458" y="110"/><use href="#pT" x="482" y="113"/>
+  <use href="#pT" x="506" y="110"/><use href="#pT" x="530" y="113"/><use href="#pT" x="554" y="110"/>
+  <use href="#pT" x="576" y="112"/><use href="#pT" x="598" y="109"/><use href="#pT" x="620" y="111"/>
+</g>
+<!-- Mid-distance (small) -->
+<g opacity="0.80">
+  <use href="#pS" x="287" y="132"/><use href="#pS" x="312" y="128"/><use href="#pS" x="338" y="132"/>
+  <use href="#pS" x="364" y="128"/><use href="#pS" x="390" y="131"/><use href="#pS" x="416" y="128"/>
+  <use href="#pS" x="441" y="132"/><use href="#pS" x="466" y="128"/><use href="#pS" x="491" y="131"/>
+  <use href="#pS" x="516" y="128"/><use href="#pS" x="540" y="131"/><use href="#pS" x="564" y="128"/>
+  <use href="#pS" x="587" y="130"/><use href="#pS" x="610" y="127"/><use href="#pS" x="626" y="132"/>
 
-  <!-- === TITLE CARTOUCHE === -->
-  <g transform="translate(82,28)">
-    <rect x="-62" y="-18" width="200" height="44" rx="4" fill="#f0e8cc" stroke="#8b6914" stroke-width="1.5" opacity="0.92"/>
-    <text x="38" y="-1" text-anchor="middle" font-size="15" font-weight="bold" fill="#3d1f00" font-family="Georgia,'Times New Roman',serif" letter-spacing="2">AELORIA</text>
-    <text x="38" y="16" text-anchor="middle" font-size="8" fill="#5a3a1a" font-family="Georgia,serif" font-style="italic">9 months to Darkgate</text>
-  </g>
+  <use href="#pS" x="282" y="152"/><use href="#pS" x="308" y="148"/><use href="#pS" x="335" y="152"/>
+  <use href="#pS" x="362" y="148"/><use href="#pS" x="389" y="151"/><use href="#pS" x="416" y="148"/>
+  <use href="#pS" x="442" y="151"/><use href="#pS" x="468" y="148"/><use href="#pS" x="494" y="151"/>
+  <use href="#pS" x="520" y="148"/><use href="#pS" x="545" y="151"/><use href="#pS" x="570" y="148"/>
+  <use href="#pS" x="593" y="150"/><use href="#pS" x="616" y="147"/><use href="#pS" x="628" y="152"/>
+</g>
+<!-- Foreground (full pine) -->
+<g opacity="0.90">
+  <use href="#pine" x="284" y="175"/><use href="#pine" x="312" y="171"/><use href="#pine" x="341" y="175"/>
+  <use href="#pine" x="370" y="171"/><use href="#pine" x="399" y="174"/><use href="#pine" x="428" y="171"/>
+  <use href="#pine" x="456" y="174"/><use href="#pine" x="484" y="171"/><use href="#pine" x="511" y="174"/>
+  <use href="#pine" x="537" y="171"/><use href="#pine" x="563" y="173"/><use href="#pine" x="588" y="171"/>
+  <use href="#pine" x="612" y="173"/><use href="#pine" x="630" y="176"/>
 
-  <!-- === LEGEND === -->
-  <g transform="translate(820,390)" font-family="Georgia,serif" font-size="7.5" fill="#1a0a00">
-    <rect x="-4" y="-14" width="128" height="122" rx="3" fill="#f0e8cc" stroke="#8b6914" stroke-width="1" opacity="0.90"/>
-    <text x="58" y="0" text-anchor="middle" font-size="8" font-weight="bold">LEGEND</text>
-    <rect x="2" y="8"  width="12" height="8" fill="#ddeaf5" stroke="#8b6914" stroke-width="0.5"/>
-    <text x="19" y="17">Dreadspire Peaks</text>
-    <rect x="2" y="22" width="12" height="8" fill="#3a6a3a" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="31">Veilwood</text>
-    <rect x="2" y="36" width="12" height="8" fill="#9a9088" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="45">Ashen Marches</text>
-    <rect x="2" y="50" width="12" height="8" fill="#ccc088" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="59">Aranthor</text>
-    <rect x="2" y="64" width="12" height="8" fill="#8898aa" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="73">Darian Empire</text>
-    <rect x="2" y="78" width="12" height="8" fill="#4a8898" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="87">Sapphire Coast</text>
-    <rect x="2" y="92" width="12" height="8" fill="#c4b88a" stroke="#8b6914" stroke-width="0.5" opacity="0.75"/>
-    <text x="19" y="101">Shattered Isles</text>
-  </g>
+  <use href="#pine" x="286" y="198"/><use href="#pine" x="316" y="194"/><use href="#pine" x="347" y="198"/>
+  <use href="#pine" x="378" y="194"/><use href="#pine" x="408" y="197"/><use href="#pine" x="437" y="194"/>
+  <use href="#pine" x="466" y="197"/><use href="#pine" x="494" y="194"/><use href="#pine" x="521" y="197"/>
+  <use href="#pine" x="547" y="194"/><use href="#pine" x="573" y="196"/><use href="#pine" x="597" y="194"/>
+  <use href="#pine" x="620" y="196"/><use href="#pine" x="636" y="200"/>
 
-  <!-- === VIGNETTE === -->
-  <rect width="1000" height="700" fill="url(#vignette)"/>
+  <use href="#pine" x="288" y="222"/><use href="#pine" x="320" y="218"/><use href="#pine" x="352" y="222"/>
+  <use href="#pine" x="384" y="218"/><use href="#pine" x="414" y="221"/><use href="#pine" x="443" y="218"/>
+  <use href="#pine" x="472" y="221"/><use href="#pine" x="500" y="218"/><use href="#pine" x="527" y="221"/>
+  <use href="#pine" x="553" y="218"/><use href="#pine" x="578" y="220"/><use href="#pine" x="602" y="218"/>
+  <use href="#pine" x="624" y="220"/>
 
-  <!-- === BORDER === -->
-  <rect x="4" y="4" width="992" height="692" rx="6" fill="none" stroke="#8b6914" stroke-width="3" opacity="0.6"/>
-  <rect x="8" y="8" width="984" height="684" rx="4" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.4"/>
+  <use href="#pine" x="291" y="247"/><use href="#pine" x="324" y="243"/><use href="#pine" x="357" y="247"/>
+  <use href="#pine" x="390" y="243"/><use href="#pine" x="420" y="246"/><use href="#pine" x="449" y="243"/>
+  <use href="#pine" x="478" y="246"/><use href="#pine" x="506" y="243"/><use href="#pine" x="532" y="246"/>
+  <use href="#pine" x="558" y="243"/><use href="#pine" x="582" y="245"/><use href="#pine" x="606" y="243"/>
+  <use href="#pine" x="626" y="246"/>
+
+  <use href="#pine" x="294" y="272"/><use href="#pine" x="328" y="268"/><use href="#pine" x="362" y="272"/>
+  <use href="#pine" x="396" y="268"/><use href="#pine" x="426" y="271"/><use href="#pine" x="455" y="268"/>
+  <use href="#pine" x="484" y="271"/><use href="#pine" x="512" y="268"/><use href="#pine" x="538" y="271"/>
+  <use href="#pine" x="563" y="268"/><use href="#pine" x="587" y="270"/><use href="#pine" x="610" y="268"/>
+
+  <use href="#pine" x="296" y="297"/><use href="#pine" x="332" y="293"/><use href="#pine" x="368" y="297"/>
+  <use href="#pine" x="402" y="293"/><use href="#pine" x="432" y="296"/><use href="#pine" x="461" y="293"/>
+  <use href="#pine" x="490" y="296"/><use href="#pine" x="518" y="293"/><use href="#pine" x="544" y="296"/>
+  <use href="#pine" x="568" y="293"/><use href="#pine" x="592" y="295"/>
+
+  <use href="#pS" x="300" y="320"/><use href="#pS" x="338" y="317"/><use href="#pS" x="376" y="320"/>
+  <use href="#pS" x="412" y="317"/><use href="#pS" x="446" y="319"/><use href="#pS" x="478" y="317"/>
+  <use href="#pS" x="508" y="319"/><use href="#pS" x="536" y="317"/><use href="#pS" x="562" y="319"/>
+</g>
+
+<!-- ═══════════════════════ ASHEN MARCHES — MARSH REEDS ════════════════ -->
+<g fill="none" stroke="#545048" stroke-width="1" opacity="0.42">
+  <line x1="98"  y1="366" x2="98"  y2="379"/><line x1="96"  y1="370" x2="100" y2="370"/>
+  <line x1="104" y1="362" x2="104" y2="376"/><line x1="102" y1="366" x2="106" y2="366"/>
+  <line x1="110" y1="368" x2="110" y2="382"/><line x1="108" y1="372" x2="112" y2="372"/>
+  <line x1="148" y1="390" x2="148" y2="403"/><line x1="146" y1="394" x2="150" y2="394"/>
+  <line x1="154" y1="387" x2="154" y2="401"/><line x1="152" y1="391" x2="156" y2="391"/>
+  <line x1="160" y1="393" x2="160" y2="407"/><line x1="158" y1="397" x2="162" y2="397"/>
+  <line x1="198" y1="412" x2="198" y2="425"/><line x1="196" y1="416" x2="200" y2="416"/>
+  <line x1="204" y1="408" x2="204" y2="422"/><line x1="202" y1="412" x2="206" y2="412"/>
+  <line x1="210" y1="415" x2="210" y2="429"/><line x1="208" y1="419" x2="212" y2="419"/>
+  <line x1="88"  y1="418" x2="88"  y2="431"/><line x1="86"  y1="422" x2="90"  y2="422"/>
+  <line x1="94"  y1="414" x2="94"  y2="428"/>
+  <line x1="138" y1="440" x2="138" y2="453"/><line x1="136" y1="444" x2="140" y2="444"/>
+  <line x1="144" y1="437" x2="144" y2="451"/><line x1="142" y1="441" x2="146" y2="441"/>
+  <line x1="185" y1="455" x2="185" y2="468"/><line x1="183" y1="459" x2="187" y2="459"/>
+  <line x1="191" y1="452" x2="191" y2="466"/>
+  <line x1="228" y1="470" x2="228" y2="483"/><line x1="226" y1="474" x2="230" y2="474"/>
+  <line x1="234" y1="466" x2="234" y2="480"/>
+  <line x1="100" y1="476" x2="100" y2="489"/><line x1="98"  y1="480" x2="102" y2="480"/>
+  <line x1="106" y1="473" x2="106" y2="487"/>
+  <line x1="150" y1="496" x2="150" y2="509"/><line x1="148" y1="500" x2="152" y2="500"/>
+  <line x1="156" y1="492" x2="156" y2="506"/>
+  <line x1="200" y1="508" x2="200" y2="521"/><line x1="198" y1="512" x2="202" y2="512"/>
+  <line x1="206" y1="504" x2="206" y2="518"/>
+  <line x1="240" y1="520" x2="240" y2="533"/><line x1="238" y1="524" x2="242" y2="524"/>
+  <line x1="88"  y1="532" x2="88"  y2="545"/><line x1="86"  y1="536" x2="90"  y2="536"/>
+  <line x1="94"  y1="528" x2="94"  y2="542"/>
+  <line x1="140" y1="548" x2="140" y2="561"/><line x1="138" y1="552" x2="142" y2="552"/>
+  <line x1="146" y1="545" x2="146" y2="559"/>
+  <line x1="190" y1="558" x2="190" y2="571"/><line x1="188" y1="562" x2="192" y2="562"/>
+  <line x1="232" y1="568" x2="232" y2="581"/><line x1="230" y1="572" x2="234" y2="572"/>
+  <line x1="110" y1="582" x2="110" y2="595"/><line x1="108" y1="586" x2="112" y2="586"/>
+  <line x1="116" y1="578" x2="116" y2="592"/>
+  <line x1="160" y1="593" x2="160" y2="606"/><line x1="158" y1="597" x2="162" y2="597"/>
+  <line x1="210" y1="590" x2="210" y2="603"/><line x1="208" y1="594" x2="212" y2="594"/>
+  <line x1="216" y1="587" x2="216" y2="601"/>
+  <line x1="258" y1="575" x2="258" y2="588"/>
+  <line x1="264" y1="572" x2="264" y2="585"/>
+  <line x1="278" y1="548" x2="278" y2="561"/>
+  <line x1="284" y1="544" x2="284" y2="558"/>
+  <line x1="290" y1="540" x2="290" y2="554"/>
+</g>
+<!-- Hollow's Eye void rings -->
+<circle cx="100" cy="480" r="30" fill="#b0a090" opacity="0.20"/>
+<circle cx="100" cy="480" r="20" fill="#c0b0a0" opacity="0.16"/>
+<circle cx="100" cy="480" r="11" fill="#d0c0b0" opacity="0.13"/>
+
+<!-- ═══════════════════════════ RIVERS ════════════════════════════════ -->
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M 492,363 C 494,401 496,446 493,493 C 490,536 488,569 491,606 C 493,629 496,651 494,669"
+    stroke="#3a5e7a" stroke-width="2.2" opacity="0.58"/>
+  <path d="M 314,369 C 310,416 306,461 302,511 C 299,549 296,579 298,616"
+    stroke="#3a5e7a" stroke-width="1.8" opacity="0.53"/>
+  <path d="M 248,249 C 256,281 262,311 266,333 C 268,345 270,359 272,373"
+    stroke="#4a6e8a" stroke-width="1.3" opacity="0.48"/>
+  <path d="M 198,266 C 206,297 212,327 216,369"
+    stroke="#4a6e8a" stroke-width="1.2" opacity="0.46"/>
+  <path d="M 426,325 C 438,358 444,383 450,419"
+    stroke="#3a5e7a" stroke-width="1.4" opacity="0.48"/>
+  <path d="M 824,313 C 804,356 790,393 782,439 C 778,469 780,511 776,551"
+    stroke="#4a6880" stroke-width="1.6" opacity="0.48"/>
+  <path d="M 356,623 C 362,641 366,659 368,673"
+    stroke="#3a5e7a" stroke-width="1" opacity="0.38"/>
+  <path d="M 614,611 C 618,633 622,653 626,669"
+    stroke="#3a5e7a" stroke-width="1" opacity="0.38"/>
+</g>
+
+<!-- ════════════════════════ ROADS ════════════════════════════════════ -->
+<g fill="none" stroke="#9a7820" stroke-linecap="round" opacity="0.43">
+  <path d="M 450,386 C 466,407 486,427 500,453 C 516,481 548,476 578,479"
+    stroke-width="1.5" stroke-dasharray="8,5"/>
+  <path d="M 450,386 C 442,356 434,323 426,297 C 420,276 416,253 414,229"
+    stroke-width="1.5" stroke-dasharray="8,5"/>
+  <path d="M 450,386 C 508,377 560,365 610,353 C 638,346 654,343 666,341"
+    stroke-width="1.5" stroke-dasharray="8,5"/>
+  <path d="M 644,343 C 682,361 734,373 780,383 C 810,391 842,399 868,413"
+    stroke-width="1.4" stroke-dasharray="7,5"/>
+  <path d="M 450,386 C 456,435 464,485 468,537 C 472,579 476,629 480,661"
+    stroke-width="1.5" stroke-dasharray="8,5"/>
+  <path d="M 354,503 C 388,473 422,449 450,386"
+    stroke-width="1.2" stroke-dasharray="5,6" opacity="0.33"/>
+</g>
+
+<!-- ══════════════════ COASTAL ECHO LINE ═════════════════════════════ -->
+<path d="M 72,97 C 80,91 104,88 134,86 C 164,84 222,83 282,83 C 344,82 422,81 492,80 C 542,79 578,79 602,80 C 624,80 642,79 660,80 C 697,81 752,89 812,98 C 856,104 888,112 912,118 C 923,193 925,271 922,308 C 921,371 918,434 912,497 C 906,535 895,563 887,585 C 874,616 862,635 852,649 C 838,662 811,669 762,672 L 702,674 C 670,676 611,683 542,689 C 500,692 442,691 372,686 C 320,682 272,674 222,664 C 184,655 150,642 114,629 C 88,616 70,599 67,573 C 61,548 56,505 57,423 C 57,390 59,350 64,320 L 67,284 C 67,222 66,159 72,97 Z"
+  fill="none" stroke="#2a5a7a" stroke-width="1.2" opacity="0.20"/>
+
+<!-- ══════════════════════ REGION LABELS ════════════════════════════ -->
+<g font-family="'Palatino Linotype','Book Antiqua',Palatino,Georgia,'Times New Roman',serif">
+  <text x="165" y="215" text-anchor="middle" font-size="10.5" font-weight="bold" font-style="italic"
+    fill="#182028" opacity="0.70" letter-spacing="2" transform="rotate(-6,165,215)">DREADSPIRE PEAKS</text>
+  <text x="450" y="210" text-anchor="middle" font-size="13" font-weight="bold" font-style="italic"
+    fill="#0c2808" opacity="0.52" letter-spacing="3">THE VEILWOOD</text>
+  <text x="182" y="460" text-anchor="middle" font-size="10" font-weight="bold" font-style="italic"
+    fill="#1c1810" opacity="0.66" letter-spacing="1.5" transform="rotate(-4,182,460)">ASHEN MARCHES</text>
+  <text x="460" y="455" text-anchor="middle" font-size="17" font-weight="bold" font-style="italic"
+    fill="#28180a" opacity="0.46" letter-spacing="4">ARANTHOR</text>
+  <text x="778" y="388" text-anchor="middle" font-size="12" font-weight="bold" font-style="italic"
+    fill="#121c28" opacity="0.53" letter-spacing="2">DARIAN EMPIRE</text>
+  <text x="450" y="653" text-anchor="middle" font-size="10" font-style="italic"
+    fill="#08181e" opacity="0.63" letter-spacing="2">SAPPHIRE COAST</text>
+  <text x="810" y="128" text-anchor="middle" font-size="8" font-style="italic"
+    fill="#182030" opacity="0.62" letter-spacing="1">SHATTERED ISLES</text>
+</g>
+
+<!-- ══════════════════════ COMPASS ROSE ════════════════════════════ -->
+<g transform="translate(908,610)">
+  <circle r="30" fill="#ede0ba" stroke="#7a6012" stroke-width="1.8" opacity="0.95"/>
+  <circle r="26" fill="none" stroke="#7a6012" stroke-width="0.6" opacity="0.55"/>
+  <polygon points="0,-27 -4.5,-12 4.5,-12" fill="#1c1408"/>
+  <polygon points="0,27 -4.5,12 4.5,12" fill="#7a6012"/>
+  <polygon points="-27,0 -12,-4.5 -12,4.5" fill="#7a6012"/>
+  <polygon points="27,0 12,-4.5 12,4.5" fill="#7a6012"/>
+  <polygon points="-19,-19 -12,-8 -8,-12" fill="#9a8022" opacity="0.65"/>
+  <polygon points="19,-19 8,-12 12,-8"  fill="#9a8022" opacity="0.65"/>
+  <polygon points="-19,19 -8,12 -12,8" fill="#9a8022" opacity="0.65"/>
+  <polygon points="19,19 12,8 8,12"   fill="#9a8022" opacity="0.65"/>
+  <polygon points="0,-27 -2,-18 0,-22 2,-18" fill="#8a1010"/>
+  <circle r="4.5" fill="#1c1408"/>
+  <circle r="2.8" fill="#f0d840"/>
+  <text x="0" y="-32" text-anchor="middle" font-size="9" font-weight="bold" fill="#1c1408" font-family="Georgia,serif">N</text>
+  <text x="0"  y="40" text-anchor="middle" font-size="8" fill="#1c1408" font-family="Georgia,serif">S</text>
+  <text x="-37" y="3.5" text-anchor="middle" font-size="8" fill="#1c1408" font-family="Georgia,serif">W</text>
+  <text x="37"  y="3.5" text-anchor="middle" font-size="8" fill="#1c1408" font-family="Georgia,serif">E</text>
+</g>
+
+<!-- ══════════════════════ SCALE BAR ═══════════════════════════════ -->
+<g transform="translate(28,672)" font-family="Georgia,serif">
+  <rect x="0" y="-6" width="90" height="6" fill="#1c1408" opacity="0.62"/>
+  <rect x="0" y="-6" width="45" height="6" fill="#ede0ba" opacity="0.62"/>
+  <line x1="0" y1="-7" x2="90" y2="-7" stroke="#1c1408" stroke-width="0.8" opacity="0.5"/>
+  <text x="45" y="9" text-anchor="middle" font-size="7.5" fill="#1c1408">0 ─── 50 leagues</text>
+</g>
+
+<!-- ══════════════════════ TITLE CARTOUCHE ══════════════════════════ -->
+<g transform="translate(22,18)">
+  <rect x="-1" y="1" width="200" height="54" rx="5" fill="#060302" opacity="0.28"/>
+  <rect x="-2" y="-2" width="200" height="54" rx="5" fill="#ede0ba" stroke="#7a6012" stroke-width="2" opacity="0.95"/>
+  <rect x="4" y="4" width="188" height="42" rx="3" fill="none" stroke="#7a6012" stroke-width="0.8" opacity="0.45"/>
+  <text x="98" y="19" text-anchor="middle" font-size="17" font-weight="bold" fill="#1c1408"
+    font-family="'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif" letter-spacing="5">AELORIA</text>
+  <text x="98" y="37" text-anchor="middle" font-size="8.5" fill="#5a3818" font-style="italic"
+    font-family="Georgia,serif" letter-spacing="0.5">9 months to Darkgate</text>
+</g>
+
+<!-- ══════════════════════ LEGEND ═══════════════════════════════════ -->
+<g transform="translate(820,396)" font-family="Georgia,serif" font-size="7.8" fill="#1a0a00">
+  <rect x="-1" y="1" width="129" height="128" rx="3" fill="#060302" opacity="0.22"/>
+  <rect x="-4" y="-14" width="129" height="128" rx="3" fill="#ede0ba" stroke="#7a6012" stroke-width="1.2" opacity="0.93"/>
+  <text x="58" y="0" text-anchor="middle" font-size="8.5" font-weight="bold" letter-spacing="1.5">LEGEND</text>
+  <rect x="2" y="8"  width="13" height="9" rx="1" fill="#c0ccd8" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="18">Dreadspire Peaks</text>
+  <rect x="2" y="23" width="13" height="9" rx="1" fill="#284e1e" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="33">The Veilwood</text>
+  <rect x="2" y="38" width="13" height="9" rx="1" fill="#948478" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="48">Ashen Marches</text>
+  <rect x="2" y="53" width="13" height="9" rx="1" fill="#d8c87c" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="63">Aranthor</text>
+  <rect x="2" y="68" width="13" height="9" rx="1" fill="#7484a4" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="78">Darian Empire</text>
+  <rect x="2" y="83" width="13" height="9" rx="1" fill="#286474" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="93">Sapphire Coast</text>
+  <rect x="2" y="98" width="13" height="9" rx="1" fill="#e8daae" stroke="#7a6012" stroke-width="0.5"/>
+  <text x="20" y="108">Shattered Isles</text>
+</g>
+
+<!-- ══════════════════ VIGNETTE + BORDER ═══════════════════════════ -->
+<rect width="1000" height="700" fill="url(#vignette)"/>
+<rect x="4"  y="4"  width="992" height="692" rx="6" fill="none" stroke="#7a6012" stroke-width="3.5" opacity="0.65"/>
+<rect x="10" y="10" width="980" height="680" rx="4" fill="none" stroke="#7a6012" stroke-width="1.2" opacity="0.38"/>
+<!-- Corner ornaments -->
+<g stroke="#7a6012" stroke-width="1.5" fill="none" opacity="0.55">
+  <path d="M 4,22 L 4,4 L 22,4"/>   <path d="M 10,26 L 10,10 L 26,10"/>
+  <path d="M 978,4 L 996,4 L 996,22"/> <path d="M 974,10 L 990,10 L 990,26"/>
+  <path d="M 4,678 L 4,696 L 22,696"/> <path d="M 10,674 L 10,690 L 26,690"/>
+  <path d="M 978,696 L 996,696 L 996,678"/> <path d="M 974,690 L 990,690 L 990,674"/>
+</g>
 </svg>
