@@ -195,27 +195,15 @@ alter table session_events enable row level security;
 alter table player_discoveries enable row level security;
 
 -- Allow all reads via anon key (the app handles DM-vs-player logic in code)
-create policy "Public read" on players for select using (true);
-create policy "Public read" on locations for select using (true);
-create policy "Public read" on npcs for select using (true);
-create policy "Public read" on npc_relationships for select using (true);
-create policy "Public read" on factions for select using (true);
-create policy "Public read" on player_faction_rep for select using (true);
-create policy "Public read" on quests for select using (true);
-create policy "Public read" on player_quests for select using (true);
-create policy "Public read" on sessions for select using (true);
-create policy "Public read" on session_events for select using (true);
-create policy "Public read" on player_discoveries for select using (true);
-
--- Service role (used server-side) can write everything
-create policy "Service write" on players for all using (auth.role() = 'service_role');
-create policy "Service write" on locations for all using (auth.role() = 'service_role');
-create policy "Service write" on npcs for all using (auth.role() = 'service_role');
-create policy "Service write" on npc_relationships for all using (auth.role() = 'service_role');
-create policy "Service write" on factions for all using (auth.role() = 'service_role');
-create policy "Service write" on player_faction_rep for all using (auth.role() = 'service_role');
-create policy "Service write" on quests for all using (auth.role() = 'service_role');
-create policy "Service write" on player_quests for all using (auth.role() = 'service_role');
-create policy "Service write" on sessions for all using (auth.role() = 'service_role');
-create policy "Service write" on session_events for all using (auth.role() = 'service_role');
-create policy "Service write" on player_discoveries for all using (auth.role() = 'service_role');
+do $$ declare t text; begin
+  foreach t in array array[
+    'players','locations','npcs','npc_relationships','factions',
+    'player_faction_rep','quests','player_quests','sessions',
+    'session_events','player_discoveries'
+  ] loop
+    execute format('drop policy if exists "Public read" on %I', t);
+    execute format('create policy "Public read" on %I for select using (true)', t);
+    execute format('drop policy if exists "Service write" on %I', t);
+    execute format('create policy "Service write" on %I for all using (auth.role() = ''service_role'')', t);
+  end loop;
+end $$;
