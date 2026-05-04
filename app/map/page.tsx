@@ -39,13 +39,13 @@ export default function MapPage() {
       {/* ── Sidebar ── */}
       <aside className="w-72 flex-shrink-0 border-r border-amber-900/40 flex flex-col overflow-hidden">
         <div className="p-4 border-b border-amber-900/40">
-          <h1 className="text-xl font-bold text-amber-400 tracking-widest uppercase">Elaryn</h1>
-          <p className="text-xs text-amber-700 mt-0.5">DM Map — 247 PA</p>
+          <h1 className="text-xl font-bold text-amber-400 tracking-widest uppercase">Aeloria</h1>
+          <p className="text-xs text-amber-700 mt-0.5">DM Map — Darkgate Minus 9 Months</p>
         </div>
 
         {/* Filter buttons */}
         <div className="p-3 border-b border-amber-900/30 flex flex-wrap gap-1.5">
-          {['all', 'town', 'dungeon', 'Hearthlands', 'Ashfields', 'Verdant Reach', 'Frostmarch', 'Amber Expanse', 'Saltmere'].map((f) => (
+          {['all', 'town', 'dungeon', 'Heartlands', 'Ashen Marches', 'Veilwood', 'Dreadspire Peaks', 'Sapphire Coast', 'Shattered Isles'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}

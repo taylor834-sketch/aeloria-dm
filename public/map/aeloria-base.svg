@@ -213,8 +213,8 @@
   <!-- Title cartouche -->
   <g transform="translate(800,30)">
     <rect x="-55" y="-18" width="175" height="40" rx="4" fill="#f0e8cc" stroke="#8b6914" stroke-width="1.5" opacity="0.92"/>
-    <text x="32" y="-2" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d1f00" font-family="Georgia,'Times New Roman',serif" letter-spacing="1">ELARYN</text>
-    <text x="32" y="14" text-anchor="middle" font-size="8" fill="#5a3a1a" font-family="Georgia,serif" font-style="italic">247 PA — Post-Ashen Era</text>
+    <text x="32" y="-2" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d1f00" font-family="Georgia,'Times New Roman',serif" letter-spacing="1">AELORIA</text>
+    <text x="32" y="14" text-anchor="middle" font-size="8" fill="#5a3a1a" font-family="Georgia,serif" font-style="italic">9 months to Darkgate</text>
   </g>
 
   <!-- Legend -->

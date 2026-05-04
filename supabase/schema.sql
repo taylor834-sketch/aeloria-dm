@@ -1,4 +1,4 @@
--- Elaryn DM Tool — Supabase Schema
+-- Aeloria DM Tool — Supabase Schema
 -- Run this in the Supabase SQL editor to initialize your database
 
 -- ─────────────────────────────────────────────

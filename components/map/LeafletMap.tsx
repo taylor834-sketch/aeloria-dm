@@ -70,7 +70,7 @@ export default function LeafletMap({
       // Use a foreign object approach — embed an img that loads our SVG component
       // Instead, we use an SVG overlay via Leaflet's built-in SVGOverlay
       // The SVG content is inlined below as a data URI
-      const svgUrl = '/map/elaryn-base.svg'
+      const svgUrl = '/map/aeloria-base.svg'
 
       // Use imageOverlay with the SVG file
       L.imageOverlay(svgUrl, bounds, {
@@ -153,7 +153,7 @@ export default function LeafletMap({
 
         marker.bindPopup(popupContent, {
           maxWidth: 240,
-          className: 'elaryn-popup',
+          className: 'aeloria-popup',
         })
 
         marker.on('click', () => {
@@ -176,13 +176,13 @@ export default function LeafletMap({
     <div className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
       <style>{`
-        .elaryn-popup .leaflet-popup-content-wrapper {
+        .aeloria-popup .leaflet-popup-content-wrapper {
           background: #fef9ec;
           border: 1.5px solid #8b6914;
           border-radius: 4px;
           box-shadow: 0 2px 12px rgba(0,0,0,0.4);
         }
-        .elaryn-popup .leaflet-popup-tip {
+        .aeloria-popup .leaflet-popup-tip {
           background: #fef9ec;
         }
         .leaflet-container {

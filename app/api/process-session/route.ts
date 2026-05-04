@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Claude extraction prompt ──
-    const extractionPrompt = `You are the campaign manager for a D&D campaign set in the world of Elaryn.
+    const extractionPrompt = `You are the campaign manager for a D&D campaign set in the world of Aeloria.
 Your job is to read a session transcript and extract structured data to update the campaign database.
 
 ## World context (existing records)

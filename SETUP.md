@@ -1,4 +1,4 @@
-# Elaryn DM Tool — Setup Guide
+# Aeloria DM Tool — Setup Guide
 
 ## What you need
 
@@ -12,7 +12,7 @@
 ## Step 1: Supabase
 
 1. Go to [supabase.com](https://supabase.com) → New project
-2. Name it `elaryn-dm`, pick any password and region
+2. Name it `aeloria-dm`, pick any password and region
 3. Once created, go to **Settings → API** and copy:
    - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
    - **anon/public key** → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -21,7 +21,7 @@
    - First: paste and run the contents of `supabase/schema.sql`
    - Then: paste and run the contents of `supabase/seed.sql`
 
-This creates all the tables and loads all the Elaryn world data.
+This creates all the tables and loads all the Aeloria world data.
 
 ---
 
@@ -59,7 +59,7 @@ values
 ## Step 4: Run locally
 
 ```bash
-cd elaryn-dm
+cd aeloria-dm
 npm run dev
 ```
 
@@ -69,7 +69,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Step 5: Deploy to Vercel (optional)
 
-1. Push the `elaryn-dm` folder to GitHub as its own repo
+1. Push the `aeloria-dm` folder to GitHub as its own repo
 2. Go to [vercel.com](https://vercel.com) → Import project → select the repo
 3. In **Environment Variables**, add your four env vars from Step 2
 4. Deploy — Vercel auto-builds on every push

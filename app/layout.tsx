@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Elaryn — DM Campaign Tool",
-  description: "Campaign management tool for the world of Elaryn",
+  title: "Aeloria — DM Campaign Tool",
+  description: "Campaign management tool for the world of Aeloria",
 };
 
 export default function RootLayout({

@@ -1,10 +1,10 @@
 'use client'
 
-// The continent of Elaryn — a full SVG fantasy map
+// The continent of Aeloria — a full SVG fantasy map
 // Coordinate system: 0,0 top-left, 1000x700 viewport
 // All town coordinates match the database map_x / map_y values
 
-export default function ElarynSVGMap() {
+export default function AeloriaMap() {
   return (
     <svg
       viewBox="0 0 1000 700"
@@ -376,9 +376,9 @@ export default function ElarynSVGMap() {
         <rect x="-55" y="-18" width="175" height="40" rx="4"
           fill="#f0e8cc" stroke="#8b6914" strokeWidth="1.5" opacity="0.92" />
         <text x="32" y="-2" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#3d1f00"
-          fontFamily="Georgia,'Times New Roman',serif" letterSpacing="1">ELARYN</text>
+          fontFamily="Georgia,'Times New Roman',serif" letterSpacing="1">AELORIA</text>
         <text x="32" y="14" textAnchor="middle" fontSize="8" fill="#5a3a1a"
-          fontFamily="Georgia,serif" fontStyle="italic">247 PA — Post-Ashen Era</text>
+          fontFamily="Georgia,serif" fontStyle="italic">9 months to Darkgate</text>
       </g>
 
       {/* ── LEGEND ── */}

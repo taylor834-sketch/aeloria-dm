@@ -113,7 +113,7 @@ function PlayerView() {
       <header className="border-b border-amber-900/40 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-lg font-bold text-amber-400">{player?.character_name ?? 'Elaryn'}</h1>
+            <h1 className="text-lg font-bold text-amber-400">{player?.character_name ?? 'Aeloria'}</h1>
             <p className="text-xs text-amber-700">
               {player?.character_race} {player?.character_class} · Level {player?.level}
             </p>

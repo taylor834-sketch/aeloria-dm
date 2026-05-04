@@ -5,8 +5,8 @@ export default function Home() {
     <main className="min-h-screen bg-stone-950 text-amber-100 font-serif flex flex-col items-center justify-center p-8">
       <div className="max-w-lg w-full text-center space-y-8">
         <div>
-          <h1 className="text-5xl font-bold text-amber-400 tracking-widest mb-3">ELARYN</h1>
-          <p className="text-amber-700 italic text-lg">A world 247 years rebuilt from ruin</p>
+          <h1 className="text-5xl font-bold text-amber-400 tracking-widest mb-3">AELORIA</h1>
+          <p className="text-amber-700 italic text-lg">A world 300 years into its unraveling</p>
           <div className="mt-3 w-24 h-px bg-amber-800 mx-auto" />
         </div>
 
@@ -27,7 +27,7 @@ export default function Home() {
               <span className="text-amber-800 group-hover:text-amber-600">→</span>
             </div>
             <p className="text-sm text-amber-700 leading-relaxed">
-              Interactive map of Elaryn. Click any town or dungeon for full details and DM notes.
+              Interactive map of Aeloria. Click any town or dungeon for full details and DM notes.
             </p>
           </Link>
 
@@ -53,7 +53,7 @@ export default function Home() {
         </div>
 
         <p className="text-xs text-amber-900">
-          Built for the Elaryn campaign · Next.js + Supabase + Claude
+          Built for the Aeloria campaign · Next.js + Supabase + Claude
         </p>
       </div>
     </main>
