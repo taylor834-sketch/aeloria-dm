@@ -1,0 +1,243 @@
+<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" width="1000" height="700">
+  <defs>
+    <filter id="parchment" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
+      <feComponentTransfer in="blended">
+        <feFuncR type="linear" slope="0.9" intercept="0.05"/>
+        <feFuncG type="linear" slope="0.85" intercept="0.04"/>
+        <feFuncB type="linear" slope="0.7" intercept="0.02"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="wobble" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="turbulence" baseFrequency="0.015" numOctaves="4" seed="8" result="turbulence"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#3d2b1f" flood-opacity="0.4"/>
+    </filter>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="60%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#1a0e05" stop-opacity="0.7"/>
+    </radialGradient>
+    <radialGradient id="oceanGrad" cx="30%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#2a4a6b"/>
+      <stop offset="100%" stop-color="#0d1f30"/>
+    </radialGradient>
+    <linearGradient id="hearthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c8b887"/>
+      <stop offset="100%" stop-color="#b8a070"/>
+    </linearGradient>
+    <linearGradient id="ashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7a6a5a"/>
+      <stop offset="100%" stop-color="#5a4a3a"/>
+    </linearGradient>
+    <linearGradient id="verdantGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a7a4a"/>
+      <stop offset="100%" stop-color="#2a5a2a"/>
+    </linearGradient>
+    <linearGradient id="frostGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b0c8d8"/>
+      <stop offset="100%" stop-color="#d8eaf5"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c89a3a"/>
+      <stop offset="100%" stop-color="#a07828"/>
+    </linearGradient>
+    <linearGradient id="saltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a7a8a"/>
+      <stop offset="100%" stop-color="#2a5a6a"/>
+    </linearGradient>
+    <linearGradient id="parchBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0e8cc"/>
+      <stop offset="50%" stop-color="#e8d8b0"/>
+      <stop offset="100%" stop-color="#d8c898"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Parchment base -->
+  <rect width="1000" height="700" fill="url(#parchBase)"/>
+  <rect width="1000" height="700" fill="url(#parchment)" opacity="0.6"/>
+
+  <!-- Ocean -->
+  <path d="M0,0 L130,0 L120,200 L80,350 L0,380 Z" fill="url(#oceanGrad)" opacity="0.85" filter="url(#wobble)"/>
+  <path d="M0,620 L300,650 L500,670 L700,660 L1000,680 L1000,700 L0,700 Z" fill="url(#oceanGrad)" opacity="0.85" filter="url(#wobble)"/>
+  <path d="M920,0 L1000,0 L1000,700 L940,680 L960,400 L920,200 Z" fill="url(#oceanGrad)" opacity="0.75" filter="url(#wobble)"/>
+
+  <!-- Continent -->
+  <path d="M140,50 L200,30 L320,20 L480,15 L620,25 L780,40 L880,60 L920,120 L910,200 L930,280 L910,360 L880,430 L860,500 L820,560 L760,610 L680,640 L580,650 L480,645 L380,640 L300,630 L220,610 L160,580 L120,530 L100,460 L90,380 L95,290 L110,200 L130,120 Z"
+    fill="url(#parchBase)" stroke="#8b6914" stroke-width="2.5" filter="url(#wobble)" />
+
+  <!-- Frostmarch -->
+  <path d="M200,25 L600,18 L880,60 L920,120 L910,200 L760,190 L620,180 L480,185 L340,190 L200,195 L140,140 L140,70 Z"
+    fill="url(#frostGrad)" opacity="0.75" filter="url(#wobble)"/>
+
+  <!-- Verdant Reach -->
+  <path d="M100,200 L340,190 L360,280 L340,400 L300,480 L240,520 L180,530 L130,500 L95,430 L90,330 Z"
+    fill="url(#verdantGrad)" opacity="0.7" filter="url(#wobble)"/>
+
+  <!-- Hearthlands -->
+  <path d="M340,190 L760,190 L800,280 L790,400 L760,480 L680,520 L560,530 L440,525 L340,510 L300,480 L340,400 L360,280 Z"
+    fill="url(#hearthGrad)" opacity="0.7" filter="url(#wobble)"/>
+
+  <!-- Ashfields -->
+  <path d="M760,190 L910,200 L930,280 L910,360 L880,430 L880,520 L840,580 L760,610 L680,560 L680,480 L760,480 L800,400 L790,280 Z"
+    fill="url(#ashGrad)" opacity="0.7" filter="url(#wobble)"/>
+
+  <!-- Amber Expanse -->
+  <path d="M560,530 L760,480 L780,560 L760,610 L680,640 L580,650 L480,645 L440,600 L440,525 Z"
+    fill="url(#amberGrad)" opacity="0.7" filter="url(#wobble)"/>
+
+  <!-- Saltmere Coast -->
+  <path d="M130,500 L240,520 L300,480 L340,510 L440,525 L440,600 L380,640 L300,630 L220,610 L160,580 L120,530 Z"
+    fill="url(#saltGrad)" opacity="0.65" filter="url(#wobble)"/>
+
+  <!-- Region Labels -->
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#2a1a08" opacity="0.55" letter-spacing="3">
+    <text x="480" y="105" text-anchor="middle" font-size="14" font-style="italic" font-weight="bold">THE FROSTMARCH</text>
+    <text x="175" y="360" text-anchor="middle" font-size="11" font-style="italic" transform="rotate(-15,175,360)">THE VERDANT REACH</text>
+    <text x="545" y="355" text-anchor="middle" font-size="14" font-style="italic" font-weight="bold">THE HEARTHLANDS</text>
+    <text x="810" y="330" text-anchor="middle" font-size="11" font-style="italic" transform="rotate(8,810,330)">THE ASHFIELDS</text>
+    <text x="600" y="590" text-anchor="middle" font-size="11" font-style="italic">AMBER EXPANSE</text>
+    <text x="285" y="568" text-anchor="middle" font-size="10" font-style="italic" transform="rotate(-5,285,568)">SALTMERE COAST</text>
+  </g>
+
+  <!-- Mountains (Frostmarch) -->
+  <g fill="#7a8a96" stroke="#4a5a66" stroke-width="0.5" opacity="0.8">
+    <polygon points="340,160 328,185 352,185"/>
+    <polygon points="375,155 361,182 389,182"/>
+    <polygon points="410,152 396,179 424,179"/>
+    <polygon points="445,150 431,177 459,177"/>
+    <polygon points="480,149 466,176 494,176"/>
+    <polygon points="515,151 501,178 529,178"/>
+    <polygon points="550,153 536,180 564,180"/>
+    <polygon points="585,155 571,182 599,182"/>
+    <polygon points="620,157 606,184 634,184"/>
+    <polygon points="655,159 641,186 669,186"/>
+    <polygon points="690,161 676,188 704,188"/>
+    <polygon points="725,163 711,190 739,190"/>
+    <!-- Taller peaks -->
+    <polygon points="310,140 295,168 325,168"/>
+    <polygon points="760,145 744,172 776,172"/>
+    <polygon points="800,135 782,165 818,165"/>
+    <polygon points="840,130 820,162 860,162"/>
+  </g>
+
+  <!-- Forests (Verdant Reach) -->
+  <g fill="#2a5a2a" opacity="0.45">
+    <circle cx="155" cy="280" r="14"/>
+    <circle cx="175" cy="300" r="14"/>
+    <circle cx="155" cy="320" r="14"/>
+    <circle cx="175" cy="340" r="14"/>
+    <circle cx="155" cy="360" r="14"/>
+    <circle cx="185" cy="280" r="14"/>
+    <circle cx="205" cy="300" r="14"/>
+    <circle cx="185" cy="320" r="14"/>
+    <circle cx="205" cy="340" r="14"/>
+    <circle cx="185" cy="360" r="14"/>
+    <circle cx="215" cy="280" r="14"/>
+    <circle cx="235" cy="300" r="14"/>
+    <circle cx="215" cy="320" r="14"/>
+    <circle cx="235" cy="340" r="14"/>
+    <circle cx="155" cy="400" r="14"/>
+    <circle cx="175" cy="420" r="14"/>
+    <circle cx="155" cy="440" r="14"/>
+    <circle cx="175" cy="460" r="14"/>
+    <circle cx="205" cy="400" r="14"/>
+    <circle cx="225" cy="420" r="14"/>
+    <circle cx="205" cy="440" r="14"/>
+    <circle cx="245" cy="380" r="14"/>
+    <circle cx="265" cy="400" r="14"/>
+    <circle cx="245" cy="420" r="14"/>
+  </g>
+
+  <!-- Desert dunes -->
+  <g fill="#c89a3a" opacity="0.3" stroke="#a07828" stroke-width="0.5">
+    <ellipse cx="570" cy="560" rx="18" ry="6"/>
+    <ellipse cx="610" cy="560" rx="18" ry="6"/>
+    <ellipse cx="650" cy="558" rx="18" ry="6"/>
+    <ellipse cx="690" cy="556" rx="18" ry="6"/>
+    <ellipse cx="730" cy="553" rx="18" ry="6"/>
+    <ellipse cx="580" cy="578" rx="18" ry="6"/>
+    <ellipse cx="620" cy="576" rx="18" ry="6"/>
+    <ellipse cx="660" cy="574" rx="18" ry="6"/>
+    <ellipse cx="700" cy="572" rx="18" ry="6"/>
+    <ellipse cx="600" cy="596" rx="18" ry="6"/>
+    <ellipse cx="640" cy="594" rx="18" ry="6"/>
+    <ellipse cx="680" cy="592" rx="18" ry="6"/>
+  </g>
+
+  <!-- Rivers -->
+  <g fill="none" stroke="#4a6a8a" stroke-width="1.5" opacity="0.6" stroke-linecap="round">
+    <path d="M500,195 C510,240 520,280 510,330 C500,380 490,420 495,460 C500,490 510,510 505,530"/>
+    <path d="M200,195 C210,240 205,300 195,360 C185,420 175,460 180,510"/>
+    <path d="M380,190 C385,220 390,250 395,280"/>
+    <path d="M620,185 C625,215 620,240 615,270"/>
+  </g>
+
+  <!-- Roads -->
+  <g fill="none" stroke="#8b6914" stroke-width="1.2" opacity="0.5" stroke-dasharray="6,4">
+    <path d="M480,310 C480,270 480,230 480,190"/>
+    <path d="M480,310 C540,320 580,340 640,380 C680,410 700,420 700,420"/>
+    <path d="M480,310 C490,360 492,400 490,440"/>
+    <path d="M480,310 C420,320 360,330 290,350 C260,360 230,370 200,380"/>
+    <path d="M200,500 C210,530 215,555 200,580"/>
+    <path d="M490,440 C460,470 400,490 350,500 C290,512 250,510 220,510"/>
+  </g>
+
+  <!-- Compass Rose -->
+  <g transform="translate(75,75)">
+    <circle r="28" fill="#f0e8cc" stroke="#8b6914" stroke-width="1.5" opacity="0.9"/>
+    <circle r="24" fill="none" stroke="#8b6914" stroke-width="0.5"/>
+    <polygon points="0,-24 -4,-10 4,-10" fill="#3d1f00"/>
+    <polygon points="0,24 -4,10 4,10" fill="#8b6914"/>
+    <polygon points="-24,0 -10,-4 -10,4" fill="#8b6914"/>
+    <polygon points="24,0 10,-4 10,4" fill="#8b6914"/>
+    <polygon points="0,-24 -2,-16 0,-20 2,-16" fill="#cc0000"/>
+    <circle r="3.5" fill="#3d1f00"/>
+    <circle r="2" fill="#f5d56e"/>
+    <text x="0" y="-29" text-anchor="middle" font-size="8" font-weight="bold" fill="#3d1f00" font-family="Georgia,serif">N</text>
+    <text x="0" y="38" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">S</text>
+    <text x="-34" y="3" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">W</text>
+    <text x="34" y="3" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">E</text>
+  </g>
+
+  <!-- Scale bar -->
+  <g transform="translate(830,655)">
+    <rect x="0" y="0" width="80" height="8" fill="#3d1f00" opacity="0.7"/>
+    <rect x="0" y="0" width="40" height="8" fill="#f0e8cc" opacity="0.7"/>
+    <text x="40" y="18" text-anchor="middle" font-size="7" fill="#3d1f00" font-family="Georgia,serif">50 leagues</text>
+  </g>
+
+  <!-- Title cartouche -->
+  <g transform="translate(800,30)">
+    <rect x="-55" y="-18" width="175" height="40" rx="4" fill="#f0e8cc" stroke="#8b6914" stroke-width="1.5" opacity="0.92"/>
+    <text x="32" y="-2" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d1f00" font-family="Georgia,'Times New Roman',serif" letter-spacing="1">ELARYN</text>
+    <text x="32" y="14" text-anchor="middle" font-size="8" fill="#5a3a1a" font-family="Georgia,serif" font-style="italic">247 PA — Post-Ashen Era</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(14,600)" font-family="Georgia,serif" font-size="7.5" fill="#1a0a00">
+    <rect x="-4" y="-14" width="115" height="88" rx="3" fill="#f0e8cc" stroke="#8b6914" stroke-width="1" opacity="0.88"/>
+    <text x="52" y="0" text-anchor="middle" font-size="8" font-weight="bold">LEGEND</text>
+    <circle cx="8" cy="14" r="4" fill="#f5d56e" stroke="#3d1f00" stroke-width="0.8"/>
+    <text x="16" y="17">Major City</text>
+    <circle cx="8" cy="28" r="3" fill="#d4a940" stroke="#3d1f00" stroke-width="0.8"/>
+    <text x="16" y="31">Town</text>
+    <line x1="3" y1="37" x2="13" y2="47" stroke="#cc2200" stroke-width="1.5"/>
+    <line x1="13" y1="37" x2="3" y2="47" stroke="#cc2200" stroke-width="1.5"/>
+    <text x="16" y="45">Dungeon</text>
+    <line x1="2" y1="56" x2="16" y2="56" stroke="#8b6914" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="20" y="59">Road</text>
+    <line x1="2" y1="70" x2="16" y2="70" stroke="#4a6a8a" stroke-width="1.5"/>
+    <text x="20" y="73">River</text>
+  </g>
+
+  <!-- Vignette -->
+  <rect width="1000" height="700" fill="url(#vignette)"/>
+
+  <!-- Border -->
+  <rect x="4" y="4" width="992" height="692" rx="6" fill="none" stroke="#8b6914" stroke-width="3" opacity="0.6"/>
+  <rect x="8" y="8" width="984" height="684" rx="4" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.4"/>
+</svg>
