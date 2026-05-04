@@ -45,7 +45,7 @@ export default function MapPage() {
 
         {/* Filter buttons */}
         <div className="p-3 border-b border-amber-900/30 flex flex-wrap gap-1.5">
-          {['all', 'town', 'dungeon', 'Heartlands', 'Ashen Marches', 'Veilwood', 'Dreadspire Peaks', 'Sapphire Coast', 'Shattered Isles'].map((f) => (
+          {['all', 'town', 'dungeon', 'Aranthor', 'Ashen Marches', 'Veilwood', 'Dreadspire Peaks', 'Darian Empire', 'Sapphire Coast', 'Shattered Isles'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
