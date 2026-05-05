@@ -39,41 +39,34 @@ if (!apiKey) {
 // Carefully engineered for DALL-E 3 to produce an Inkarnate-quality map
 // with Aeloria's exact regional geography.
 const PROMPT = `
-A breathtakingly detailed painterly digital fantasy world map illustration,
-top-down bird's-eye cartographic view in the style of Inkarnate and Wonderdraft.
-Professional fantasy game map, rich hand-painted terrain textures.
+Painterly illustrated top-down fantasy world map in the style of Inkarnate, 1792x1024 pixels wide.
 
-THE CONTINENT occupies most of the image, surrounded by dark deep ocean water
-with subtle hex-grid wave lines and a few decorative sailing ships and sea serpents.
+The image shows ONE single large continent — like the size of Europe or Asia — filling most of
+the frame from left edge to right edge and from top to nearly the bottom. The continent has a
+solid connected interior. The ocean only appears as a strip at the very top and very bottom edges
+of the image, and in two small corner areas. There are no large water channels cutting through
+the continent. A cluster of 4-5 small rocky islands sits in the top-right ocean corner only.
 
-GEOGRAPHY (described west-to-east, north-to-south):
-- NORTHWEST CORNER: A dramatic snow-covered mountain range with jagged icy peaks,
-  blue-white glaciers, rocky grey stone faces, dense snowfall shadings, avalanche paths.
-  Mountains rendered as classic illustrated side-facing ridgelines with lit and shadow faces.
-- NORTH-CENTER: A vast ancient dark evergreen forest — dense pine and fir trees,
-  deep forest greens fading to black in the canopy depths, misty atmosphere at the edges,
-  a few glades visible from above.
-- WEST-CENTER: A bleak grey-brown ash wasteland with marshes, skeletal dead trees,
-  cracked dried earth, patches of grey fog, reeds and stagnant pools. Eerie and desolate.
-- CENTER: Broad golden-tan fertile plains and farmland — rolling hills, patches of
-  cultivated fields in warm amber and ochre tones, a major river running south.
-- EAST: Blue-grey slate-coloured coastal hilly territories — stone bluffs, grey-green
-  scrubland, a large river system, slightly cooler tone than the central plains.
-- SOUTH COAST: A narrow teal-colored tropical/subtropical coastal strip — sandy beaches,
-  turquoise shallow water meeting the coast, lush low vegetation.
-- NORTHEAST SEA: A scattered cluster of 4-5 small rocky volcanic-looking islands
-  with white foam coastlines, surrounded by slightly lighter shallow water.
+TERRAIN ZONES across this large continent (left to right, top to bottom):
+- TOP-LEFT CORNER: Dramatic jagged snow-capped mountain peaks with icy glaciers and grey
+  stone faces. Lit side bright, shadow side dark. Avalanche paths visible.
+- TOP-CENTER: Dense dark evergreen forest canopy seen from above — deep forest greens,
+  misty at the edges, individual pine treetops visible.
+- LEFT SIDE MIDDLE: Grey-brown desolate wasteland and marshes — cracked grey earth,
+  dead skeletal trees, dark stagnant pools, patches of dark eerie fog.
+- CENTER (the biggest zone): Rolling golden-tan grassy plains and farmland —
+  warm amber and ochre fields, a winding river snaking southward.
+- RIGHT SIDE: Cooler blue-grey hilly coastal terrain — stone ridges, grey-green scrub,
+  a river delta near the coast.
+- BOTTOM EDGE: Narrow warm teal/turquoise coastal strip with sandy beaches.
 
-ART STYLE:
-Painterly soft-edged terrain blending (regions fade into each other, not hard polygon borders).
-Rich warm parchment undertones on the land. Deep navy-blue ocean with subtle depth gradient.
-Illustrated mountain ranges with proper lit and shadow faces. Individual tree canopy textures
-visible from above in the forest. Hand-painted look with visible brush strokes.
-Dramatic lighting from upper-left.
+Inkarnate art style: rich painterly textures, terrain blends softly (no hard borders),
+warm light from upper left, deep detailed mountains, beautiful forest canopy, hex grid on ocean.
 
-CRITICAL: Absolutely no text, no labels, no place names, no written words anywhere on the image.
-No city dots or town markers. No coordinate grids on land. No legend box. No compass rose.
-No title. Pure terrain illustration only. The entire image should be filled with terrain.
+MANDATORY — NO EXCEPTIONS:
+No text. No words. No letters. No numbers. No labels. No place names anywhere in the image.
+No city markers. No compass rose. No legend. No scale bar. No title.
+Only pure beautiful terrain.
 `.trim()
 
 // ── Call DALL-E 3 ─────────────────────────────────────────────────────────────
