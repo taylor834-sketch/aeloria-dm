@@ -59,8 +59,7 @@ function parseMarkdownSections(md: string): { heading: string; content: string }
   for (const line of lines) {
     if (line.startsWith('## ')) {
       if (current) sections.push({ heading: current.heading, content: current.lines.join('\n').trim() })
-      current = { heading: line.replace(/^## /, '').trim(), content: '' }
-      current.lines = []
+      current = { heading: line.replace(/^## /, '').trim(), lines: [] }
     } else if (line.startsWith('### ') && current) {
       current.lines.push('\n**' + line.replace(/^### /, '') + '**')
     } else if (current) {
