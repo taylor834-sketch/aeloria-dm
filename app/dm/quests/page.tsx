@@ -99,9 +99,22 @@ function QuestCard({ quest }: { quest: QuestWithGiver }) {
   )
 }
 
+const inputStyle: React.CSSProperties = {
+  background: 'var(--color-surface)',
+  border: '1px solid var(--color-border)',
+  borderRadius: 4,
+  color: 'var(--color-parchment)',
+  fontSize: 13,
+  padding: '6px 10px',
+  outline: 'none',
+}
+
 export default function QuestsPage() {
   const [quests, setQuests] = useState<QuestWithGiver[]>([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [regionFilter, setRegionFilter] = useState('')
+  const [typeFilter, setTypeFilter] = useState('')
 
   useEffect(() => {
     async function load() {
@@ -126,20 +139,45 @@ export default function QuestsPage() {
     load()
   }, [])
 
+  const regions = useMemo(() => {
+    const set = new Set(quests.map((q) => q.region).filter(Boolean) as string[])
+    return Array.from(set).sort()
+  }, [quests])
+
+  const types = useMemo(() => {
+    const set = new Set(quests.map((q) => q.quest_type).filter(Boolean))
+    return Array.from(set).sort()
+  }, [quests])
+
+  const filteredQuests = useMemo(() => {
+    const s = search.toLowerCase()
+    return quests.filter((q) => {
+      if (search && !q.title.toLowerCase().includes(s) &&
+          !q.description?.toLowerCase().includes(s) &&
+          !q.dm_notes?.toLowerCase().includes(s) &&
+          !q.giver_name?.toLowerCase().includes(s)) return false
+      if (regionFilter && q.region !== regionFilter) return false
+      if (typeFilter && q.quest_type !== typeFilter) return false
+      return true
+    })
+  }, [quests, search, regionFilter, typeFilter])
+
   const columns = useMemo(() => {
     const grouped: Record<string, QuestWithGiver[]> = {}
     for (const col of COLUMNS) {
-      grouped[col.key] = quests.filter((q) => q.status === col.key)
+      grouped[col.key] = filteredQuests.filter((q) => q.status === col.key)
     }
     return grouped
-  }, [quests])
+  }, [filteredQuests])
+
+  const isFiltered = search || regionFilter || typeFilter
 
   if (loading) return <Spinner />
 
   return (
     <div style={{ maxWidth: 1200 }}>
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-5">
         <h1
           className="font-display"
           style={{ fontSize: 26, fontWeight: 600, color: 'var(--color-gold-light)', marginBottom: 4 }}
@@ -147,8 +185,43 @@ export default function QuestsPage() {
           Quest Board
         </h1>
         <p style={{ color: 'var(--color-parchment-dim)', fontSize: 13 }}>
-          {quests.length} total quests
+          {isFiltered ? `${filteredQuests.length} of ${quests.length}` : quests.length} quests
         </p>
+      </div>
+
+      {/* Filters */}
+      <div className="flex items-center gap-2 flex-wrap mb-6">
+        <input
+          type="text"
+          placeholder="Search quests..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ ...inputStyle, minWidth: 220 }}
+        />
+        <select
+          value={regionFilter}
+          onChange={(e) => setRegionFilter(e.target.value)}
+          style={{ ...inputStyle, minWidth: 160 }}
+        >
+          <option value="">All regions</option>
+          {regions.map((r) => <option key={r} value={r}>{r}</option>)}
+        </select>
+        <select
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
+          style={{ ...inputStyle, minWidth: 140 }}
+        >
+          <option value="">All types</option>
+          {types.map((t) => <option key={t} value={t}>{t}</option>)}
+        </select>
+        {isFiltered && (
+          <button
+            onClick={() => { setSearch(''); setRegionFilter(''); setTypeFilter('') }}
+            style={{ ...inputStyle, color: 'var(--color-parchment-dim)', cursor: 'pointer' }}
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       {/* Kanban board */}
@@ -193,7 +266,7 @@ export default function QuestsPage() {
                     }}
                   >
                     <p style={{ fontSize: 12, color: 'var(--color-parchment-dim)', fontStyle: 'italic' }}>
-                      No quests
+                      {isFiltered ? 'No matches' : 'No quests'}
                     </p>
                   </div>
                 ) : (
