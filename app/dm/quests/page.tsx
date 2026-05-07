@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import type { Quest, NPC } from '@/types/database'
 
@@ -44,6 +45,7 @@ const COLUMN_BORDER: Record<string, string> = {
 
 function QuestCard({ quest }: { quest: QuestWithGiver }) {
   return (
+    <Link href={`/dm/quests/${quest.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
     <div
       className="card card-hover"
       style={{
@@ -93,6 +95,7 @@ function QuestCard({ quest }: { quest: QuestWithGiver }) {
         </p>
       )}
     </div>
+    </Link>
   )
 }
 
