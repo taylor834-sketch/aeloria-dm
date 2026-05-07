@@ -78,7 +78,7 @@ export default function NPCDetailPage() {
 
       const fetches: Promise<unknown>[] = [
         // Quest links
-        supabase.from('npc_quest_links').select('*').eq('npc_id', n.id).then(async (res) => {
+        Promise.resolve(supabase.from('npc_quest_links').select('*').eq('npc_id', n.id)).then(async (res) => {
           const links: NPCQuestLink[] = res.data ?? []
           if (links.length === 0) return
           const qids = links.map((l) => l.quest_id)
@@ -89,7 +89,7 @@ export default function NPCDetailPage() {
           })))
         }),
         // Player relationships
-        supabase.from('npc_relationships').select('*').eq('npc_id', n.id).then(async (res) => {
+        Promise.resolve(supabase.from('npc_relationships').select('*').eq('npc_id', n.id)).then(async (res) => {
           const rels: NPCRelationship[] = res.data ?? []
           if (rels.length === 0) return
           const pids = rels.map((r) => r.player_id)
