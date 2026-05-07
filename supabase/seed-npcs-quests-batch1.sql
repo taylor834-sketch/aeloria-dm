@@ -1,4 +1,4 @@
--- Batch 1: Aranthor + Darian Empire NPCs and Quests
+﻿-- Batch 1: Aranthor + Darian Empire NPCs and Quests
 -- Sources: gazetteer-aranthor.md, gazetteer-darian-empire.md
 -- Generated CR 847 for active campaign use
 
@@ -247,7 +247,7 @@ VALUES
 
   -- Healing Springs of Maer's Rest
   ('Sister Aveth', 'sister-aveth',
-   (SELECT id FROM locations WHERE slug = 'healing-springs-maers-rest'),
+   NULL,
    'Maerath Tender', 'Human',
    'Senior tender of the Healing Springs of Maer''s Rest, 60 years old, has been at the site for 25 years. Has noticed the water''s healing properties subtly changing over the past six months.',
    'Calm, observant, spiritually attuned without being dramatic about it. Has been trying to get a message to the Sentinel Order for four months.',
@@ -255,7 +255,7 @@ VALUES
    false, true),
 
   ('Senn', 'senn-maers-rest',
-   (SELECT id FROM locations WHERE slug = 'healing-springs-maers-rest'),
+   NULL,
    'Maerath Apprentice', 'Human',
    'Apprentice tender at the Healing Springs of Maer''s Rest, 22. Works alongside Sister Aveth and assists with healing and site maintenance.',
    'Young, earnest, learning. Absorbs Sister Aveth''s calm but hasn''t yet matched her depth of perception.',
@@ -264,7 +264,7 @@ VALUES
 
   -- Aurelion Monastery of the Seven Lanterns
   ('Caelan Morn', 'caelan-morn',
-   (SELECT id FROM locations WHERE slug = 'monastery-of-seven-lanterns'),
+   NULL,
    'Prior of the Monastery', 'Human',
    'Prior of the Aurelion Monastery of the Seven Lanterns, 71. Has given Elowen''s supporters access to three historical documents from the library — but withheld a fourth that he considers too dangerous.',
    'Deliberate, intellectually rigorous, burdened by what he knows. Has been sitting on dangerous information for three years trying to determine whether it is hope or a trap.',
@@ -442,7 +442,7 @@ VALUES
 
   -- House Calen
   ('Decuria Calen', 'decuria-calen',
-   (SELECT id FROM locations WHERE slug = 'house-calen-estate'),
+   NULL,
    'Head of House Calen', 'Human',
    'Head of the oldest patrician house in the Empire, in her seventies. Has held a Senate advisory seat for generations and has been making the case for annexing Aranthor for fifty years with the patience of someone who expects to eventually win.',
    'Relentless, politically formidable, absolutely certain of her position. Age has not made her patient — it has made her more precise.',
@@ -451,7 +451,7 @@ VALUES
 
   -- House Mireth
   ('Verus Mireth', 'verus-mireth',
-   (SELECT id FROM locations WHERE slug = 'house-mireth-estate'),
+   NULL,
    'Praetor-Emeritus / House Head', 'Human',
    'Former Governor of Caldra Prima, now head of House Mireth, which controls the largest private grain stores in the Empire. Has the Emperor''s private ear and makes the anti-annexation argument in purely economic terms.',
    'Financially meticulous, pragmatically persuasive, patient. Knows the Emperor doesn''t respond to moral arguments and never tries to use them.',
@@ -460,7 +460,7 @@ VALUES
 
   -- House Talveth
   ('Mira Talveth', 'mira-talveth',
-   (SELECT id FROM locations WHERE slug = 'house-talveth-estate'),
+   NULL,
    'Head of House Talveth', 'Human',
    'Head of the house that administers census contracts for Caldra Prima. Has turned the civil service appointment into a private toll operation, charging "expedited service" fees at scales that corrupt the process.',
    'Administratively brilliant, entirely untroubled by her corruption, accustomed to operating without oversight.',
@@ -469,7 +469,7 @@ VALUES
 
   -- House Aurantis
   ('Dral Aurantis', 'dral-aurantis',
-   (SELECT id FROM locations WHERE slug = 'house-aurantis-estate'),
+   NULL,
    'Admiral-Emeritus / House Head', 'Human',
    'Head of House Aurantis, which controls the largest private fleet in the Empire. Has been feeding money to multiple Aranthorian factions simultaneously to prolong the succession crisis, which is commercially valuable to him.',
    'Calls prolonging political instability "statecraft." Calm, long-view, has no ideological preferences — only financial ones.',
@@ -495,7 +495,7 @@ VALUES
 
   -- Aurin Bridge
   ('Cass Orren', 'cass-orren',
-   (SELECT id FROM locations WHERE slug = 'aurin-bridge'),
+   NULL,
    'Bridge Keeper', 'Human',
    'Civil servant managing the Aurin Bridge toll station. Has been recording the names of everyone who crosses — not officially, but in a personal log going back eleven years. Does it out of compulsive habit.',
    'Meticulous by nature, unaware of the significance of what he documents. Finds the record-keeping personally satisfying.',
@@ -625,13 +625,13 @@ VALUES
    'Aranthor', 'regional', 'available',
    'Sister Aveth at the Healing Springs of Maer''s Rest has noticed the water''s properties subtly changing over six months — slower healing, different taste. She believes the change is connected to something deep in the earth being disturbed, and has been trying to reach the Sentinel Order for four months without success.',
    'She is correct. The springs draw on a pre-Founding resonance point that is being disrupted by the weakening of the Shadow Lord seals nearby. If the disruption continues, the springs will lose their properties entirely within a year. This is one of several "neutral ground" sites whose degradation serves as a campaign-level indicator of seal deterioration. The Sentinel Order message she sent was intercepted. Helping her reach the right people — and identifying what specific seal anchor is causing the disruption — is the immediate resolution. The anchor is in the Thornmere''s western margin.',
-   (SELECT id FROM locations WHERE slug = 'healing-springs-maers-rest')),
+   NULL),
 
   ('The Fourth Document at Seven Lanterns', 'fourth-document-seven-lanterns',
    'Aranthor', 'regional', 'available',
    'Brother Caelan Morn, Prior of the Aurelion Monastery, has given Elowen''s supporters access to three historical documents. He is withholding a fourth that he considers too dangerous to share until he is certain who will use it and how. He has been making this determination for three years.',
    'The fourth document describes a secondary activation method for the Crown''s sealing power that doesn''t require the complete Crown — a contingency written into the original Covenant for exactly the kind of crisis now unfolding. Morn won''t release it to just anyone; he needs to be convinced the party has a trustworthy connection to the people who would use it responsibly. He will test the party with a smaller task: verify that the three documents already given to Elowen''s agents actually reached her, and report what she intends to do with them. If they pass, he shares the fourth. The information in it changes the campaign''s endgame.',
-   (SELECT id FROM locations WHERE slug = 'monastery-of-seven-lanterns')),
+   NULL),
 
   ('The Skull Markings at the Thornmere Wayside', 'skull-markings-thornmere-wayside',
    'Aranthor', 'town', 'available',
@@ -731,6 +731,6 @@ VALUES
    'Darian Empire', 'regional', 'available',
    'Census Cheats has identified a maintenance tunnel beneath aqueduct arch 47 that connects to a pre-Darian drainage system under Caldrath — a six-hour underground route into the capital''s northeast quarter, unrecorded in any census. The Arcane Vanguard''s chief cartographer noted growing geomantic anomalies from this same quarter eight years ago. Both threads lead to the Sunken Ward.',
    'The tunnel is real and passable. The Sunken Ward is mostly flooded and partially collapsed — the outer tunnels are used by Census Cheats; the inner sections are unexplored. The geomantic anomaly is architectural: the pre-Darian city below Caldrath was built around a Shadow Lord containment site, and the construction above it has been slowly resonating with the seal''s deterioration. Reaching the containment site requires navigating the flooded inner Sunken Ward without conventional light (bioluminescent growth makes it dim but navigable) and bypassing a failed Vanguard monitoring station. What''s at the center has been growing by measurable percentage each year.',
-   (SELECT id FROM locations WHERE slug = 'caldrath'))
+   NULL)
 
 ON CONFLICT (slug) DO NOTHING;

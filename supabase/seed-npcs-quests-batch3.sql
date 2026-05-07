@@ -1,4 +1,4 @@
--- Batch 3: Ashen Marches + Shattered Isles NPCs and quests
+﻿-- Batch 3: Ashen Marches + Shattered Isles NPCs and quests
 
 -- ============================================================
 -- NPCs
@@ -120,7 +120,7 @@ VALUES
    'available',
    'Three void-crystals at the deepest point of the Voidshard Cave have developed inclusions that move with apparent purpose when observed. A Sentinel scholar who examined them through a magnifying glass afterward reported a specific dream: an enormous still darkness, and the overwhelming sensation of being watched from below.',
    'The moving inclusions are not random — they are a form of communication, Nhal''Zeruun testing the interface between its prison and the material world. The dreaming scholar, Mireth, is being slowly attuned; each night she spends near the cave, the dream becomes more detailed. Players who enter the cave will experience attenuated versions of this contact. The resolution path: destroy the three crystals (suppresses the contact but alerts the Cult, who consider the crystals sacred), seal the cave''s entrance (buys time), or allow a carefully prepared scholar to attempt structured communication with whatever is trying to reach through.',
-   (SELECT id FROM locations WHERE slug = 'voidshard-cave')),
+   NULL),
 
   ('The Hidden Scripture',
    'the-hidden-scripture',
@@ -129,7 +129,7 @@ VALUES
    'available',
    'Under the altar of the Reconsecrated Temple of Aelon — now a Bloodmire Cult worship site — the original priests hid a document before they fled: their record of what the temple''s ley-node was, what it connected to, and what they witnessed over two centuries of Nhal''Zeruun''s spreading influence. It predates any Sentinel Order documentation by a century.',
    'The document is wrapped in oilcloth under the altar and is intact. Retrieving it requires entering an active Cult worship site, which has rotating guard presence and a resident void-priest. The document itself contains two critical pieces of intelligence: the original ley-node''s connection points (which could allow partial restoration of the suppressed anchor network) and the priests'' firsthand observation that Nhal''Zeruun''s influence accelerated sharply in CR 619 after what they describe as "a deliberate opening from without." Someone helped the blight spread. The document names no names but describes a ritual signature.',
-   (SELECT id FROM locations WHERE slug = 'reconsecrated-temple-of-aelon')),
+   NULL),
 
   ('What the Soil Remembers',
    'what-the-soil-remembers',
@@ -165,7 +165,7 @@ VALUES
    'available',
    'A fire was spotted three times in the upper window of Tower Town''s watchtower in the past month. A Grey Scout reported finding no one there. A second Scout sent to investigate has not returned. A third was told not to go. Someone or something has occupied the best-preserved building in the Marches.',
    'The tower''s occupant is the missing second Scout, Davan, who is alive but has been void-passivized by proximity to a void-crystal formation in the tower''s basement that the Sentinel Order''s historical surveys missed. He is not a Cult member and is not hostile — he simply stopped wanting to leave and cannot clearly articulate why. The Cult does not know about the crystal formation yet. Players who reach the tower will encounter Davan in a state of dreamy inertia, the crystal formation below, and the decision of whether to destroy the crystals (curing Davan but alerting the Cult to the location), report the find to Cinderpost, or use the formation as bait for a Cult operation.',
-   (SELECT id FROM locations WHERE slug = 'tower-town')),
+   NULL),
 
   ('Six Hours Before the Shattering',
    'six-hours-before-the-shattering',

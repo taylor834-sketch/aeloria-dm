@@ -1,4 +1,4 @@
--- Batch 2: Veilwood + Sapphire Coast + Dreadspire NPCs and quests
+﻿-- Batch 2: Veilwood + Sapphire Coast + Dreadspire NPCs and quests
 -- Generated from gazetteer-veilwood.md, gazetteer-sapphire-coast.md, gazetteer-dreadspire-peaks.md
 
 -- ============================================================
@@ -39,19 +39,19 @@ VALUES
    false, true),
 
   -- Thorngate (Veilwood)
-  ('Vela Ironroot', 'vela-ironroot', (SELECT id FROM locations WHERE slug = 'thorngate-veilwood'), 'Licensed Forest Guide', 'Elf',
+  ('Vela Ironroot', 'vela-ironroot', NULL, 'Licensed Forest Guide', 'Elf',
    'One of three licensed guides operating out of Thorngate''s waystation, with fifty years of Veilwood experience. She is the most reliable choice for parties heading into the Middle Wood.',
    'Calm and methodical, with the deep patience of someone who has seen the forest in every condition. She does not take unnecessary risks.',
    NULL,
    false, true),
 
-  ('Dusk-in-Reed', 'dusk-in-reed', (SELECT id FROM locations WHERE slug = 'thorngate-veilwood'), 'Licensed Forest Guide', 'Half-Elf',
+  ('Dusk-in-Reed', 'dusk-in-reed', NULL, 'Licensed Forest Guide', 'Half-Elf',
    'The youngest of Thorngate''s three licensed guides — reckless, talented, and said to know the Veilwood better than most full elves despite her age.',
    'Confident to the point of carelessness, always slightly ahead of where caution would place her. Players who hire her will move fast and occasionally terrify.',
    NULL,
    false, true),
 
-  ('Correm Talle', 'correm-talle', (SELECT id FROM locations WHERE slug = 'thorngate-veilwood'), 'Retired Sentinel / Forest Guide', 'Human',
+  ('Correm Talle', 'correm-talle', NULL, 'Retired Sentinel / Forest Guide', 'Human',
    'A retired Sentinel in his fifties who refuses to fully leave the work. The third of Thorngate''s licensed guides — gruff, experienced, and the only one of the three who has stopped taking clients into the Middle Wood.',
    'Stubborn and direct, with the quiet authority of someone who has survived things he doesn''t discuss. His refusal to work the Middle Wood is final and not open for argument.',
    'He says the thread is unreliable and will not say more. He knows something specific about current conditions in the Middle Wood that he has not shared with anyone.',
@@ -79,32 +79,32 @@ VALUES
    true, true),
 
   -- The Vine Station
-  ('Liseth', 'liseth-vine-station', (SELECT id FROM locations WHERE slug = 'vine-station'), 'Sentinel Scholar', 'Elf',
+  ('Liseth', 'liseth-vine-station', NULL, 'Sentinel Scholar', 'Elf',
    'An elven scholar assigned to the Vine Station research outpost, studying active Choir influence — memory-wisps, dreamvine acceleration, and the healing marks on the Threaded Way. She is two months overdue for rotation.',
    'Methodical and increasingly alarmed — both by what she is observing and by her colleague Corval''s behavior.',
    'She believes Corval is under early-stage Choir influence. Her replacement never arrived. She is effectively trapped at the outpost with a colleague she no longer trusts.',
    false, true),
 
-  ('Corval', 'corval-vine-station', (SELECT id FROM locations WHERE slug = 'vine-station'), 'Sentinel Researcher / Memory Wizard', 'Human',
+  ('Corval', 'corval-vine-station', NULL, 'Sentinel Researcher / Memory Wizard', 'Human',
    'A human wizard specializing in memory magic, assigned to the Vine Station to study Choir influence. His fascination with his subject has begun to concern his colleagues.',
    'Intellectually captivated and increasingly disconnected from caution. He tests his memory each morning by writing everything he can recall about his childhood. The list grows shorter.',
    'He believes the shortening list is natural cognitive replacement. Liseth believes he is under early-stage Choir influence. The distinction may no longer be meaningful.',
    false, true),
 
-  ('Grundt', 'grundt-vine-station', (SELECT id FROM locations WHERE slug = 'vine-station'), 'Sentinel Ranger', 'Dwarf',
+  ('Grundt', 'grundt-vine-station', NULL, 'Sentinel Ranger', 'Dwarf',
    'A dwarven ranger stationed at the Vine Station primarily to prevent Liseth and Corval from doing anything catastrophically stupid. He has concluded it is time to leave.',
    'Blunt, practical, and done. He is the tiebreaker vote between Liseth''s alarm and Corval''s fascination, and he knows it.',
    NULL,
    false, true),
 
   -- Outer Network Towers
-  ('Sable', 'sable-briarwatch', (SELECT id FROM locations WHERE slug = 'briarwatch-tower'), 'Sentinel Tower Keeper', 'Elf',
+  ('Sable', 'sable-briarwatch', NULL, 'Sentinel Tower Keeper', 'Elf',
    'The lone Sentinel staffing Briarwatch tower on the Veilwood''s northwest edge. She has not been relieved in five months.',
    'Isolating and fraying at the edges. She has begun talking to the trees.',
    'Five months without relief. She is exhibiting early signs of the isolation-driven dissociation that precedes Choir susceptibility. No one has come to check on her.',
    false, true),
 
-  ('Dorn', 'dorn-wychwatch', (SELECT id FROM locations WHERE slug = 'wychwatch-tower'), 'Sentinel Tower Keeper', 'Human',
+  ('Dorn', 'dorn-wychwatch', NULL, 'Sentinel Tower Keeper', 'Human',
    'The experienced Sentinel staffing Wychwatch tower on the Veilwood''s eastern edge, watching the treeline near Wychfall.',
    'Competent and closed-off — he goes silent when asked about the deer patterns he has been observing. Something he has seen has made him stop volunteering information.',
    'He knows something specific about the deer behavior at the eastern treeline that he will not share. The silence is deliberate.',
@@ -148,7 +148,7 @@ VALUES
    true, true),
 
   -- House Duvenne
-  ('Merchant-Lady Sova Duvenne', 'sova-duvenne', (SELECT id FROM locations WHERE slug = 'duvenne-exchange'), 'Merchant House Head', 'Human',
+  ('Merchant-Lady Sova Duvenne', 'sova-duvenne', NULL, 'Merchant House Head', 'Human',
    'Head of House Duvenne, controlling the Sapphire Coast''s spice and luxury goods trade. Commercially brilliant and ideologically flexible — she deals with whoever offers the best margin.',
    'Measured and precise in public settings. She does not signal what she is thinking. She correctly interprets Selene''s lack of intervention in her Darian negotiations as a warning.',
    'Through a shell arrangement, she holds shares in two vessels operating outside the Free Isles Compact''s authority — one of which moved cargo flagged in an IV Legion classified report. She burned a communique from Caldrath six weeks ago and has been more cautious since.',
@@ -182,7 +182,7 @@ VALUES
    true, true),
 
   -- Salted Anchor (Tide Gang)
-  ('Patch', 'patch-salted-anchor', (SELECT id FROM locations WHERE slug = 'salted-anchor'), 'Tide Gang Cell Leader', 'Human',
+  ('Patch', 'patch-salted-anchor', NULL, 'Tide Gang Cell Leader', 'Human',
    'Owner of the Salted Anchor tavern and warehouse in Breakwater — the Tide Gang''s local cell leader for southern coastal operations. She manages debt collection, labor disputes, and supply runs.',
    'Direct and pragmatic, with the controlled authority of someone who has earned her position through competence. She is not easily surprised.',
    'She recently received an unexpected delivery — a crate addressed to her in Tide Gang cipher from a Caldrath sender she has never dealt with. It is in the cellar. She has not opened it.',
@@ -196,7 +196,7 @@ VALUES
    false, true),
 
   -- Dark Lantern
-  ('Kess Hallom', 'kess-hallom', (SELECT id FROM locations WHERE slug = 'dark-lantern'), 'Ship Chandler / Tide Gang Courier Hold', 'Human',
+  ('Kess Hallom', 'kess-hallom', NULL, 'Ship Chandler / Tide Gang Courier Hold', 'Human',
    'Proprietor of the Dark Lantern ship chandlery in Breakwater, known for quality goods and fair rates. The locked storeroom at the back is where the Tide Gang stores messages between courier runs.',
    'Straightforward and professional in manner. She has drawn a clear line for herself: she does not read the messages. She considers that sufficient moral distance.',
    'A message currently in her storeroom is written in a cipher the Tide Gang does not use. Someone placed it through legitimate channels but it arrived from outside the network. She noticed and is waiting to see if whoever sent it comes back.',
@@ -268,7 +268,7 @@ VALUES
    true, true),
 
   -- Highwatch
-  ('Kuldraan the Thin', 'kuldraan-the-thin', (SELECT id FROM locations WHERE slug = 'highwatch-peaks'), 'Rogue Frost Giant', 'Frost Giant',
+  ('Kuldraan the Thin', 'kuldraan-the-thin', NULL, 'Rogue Frost Giant', 'Frost Giant',
    'A Frost Giant not affiliated with any of Varkhul''s recognized holdings, operating independently outside the tribute hierarchy. For eleven years he has protected Highwatch from Varkhul''s tax collectors in exchange for the settlement''s intelligence and sightlines.',
    'Genuinely uncertain — which is unusual for him. He has received an approach from Olgrak suggesting a formal alliance and is weighing it honestly.',
    'If he accepts Olgrak''s alliance, his arrangement with Highwatch becomes a liability. He has not told Highwatch about the approach. He is deciding based on what he actually believes is the right choice, which complicates the calculation.',
@@ -349,7 +349,7 @@ VALUES
   ('The Returning Log', 'quest-returning-log-thorngate', 'Veilwood', 'town', 'available',
    'Thorngate''s gatehouse log records every party entering the Veilwood and marks their return. Of twenty-three groups in the past year, eleven have returned. Twelve entries end with a dash and a waiting date. Players can investigate what happened to the missing parties, use the log to identify patterns, or find themselves looking at entries for groups whose members they later encounter.',
    'Investigation of the log reveals three patterns: groups that hired Correm Talle as guide returned at a higher rate than others; groups that entered via the northern route have a higher disappearance rate; and one group''s entry has been partially erased — Perception DC 13 reveals it was a Sentinel Order team. Correm knows what happened to that team and why he stopped taking clients. Getting it out of him is a character encounter.',
-   (SELECT id FROM locations WHERE slug = 'thorngate-veilwood')),
+   NULL),
 
   ('What the Remembrancers Forgot', 'quest-remembrancers-ironkeel', 'Veilwood', 'town', 'available',
    'Head Remembrancer Vayne Brock of Ironkeel has noticed two of her colleagues forgetting specific entries from the oral tradition — not randomly, but the entries describing the previous Choir stirring two centuries ago. She is seventy-eight years old and running out of time to determine whether the forgetting is natural age or something else.',
@@ -369,12 +369,12 @@ VALUES
   ('The Disappearing Researcher', 'quest-vine-station-research', 'Veilwood', 'regional', 'available',
    'The Sentinel Order''s Vine Station research outpost is two months overdue for a rotation that never happened. The three researchers inside — an elven scholar, a human memory-wizard, and a dwarven ranger — have been unable to leave. The wizard is showing signs of Choir influence he doesn''t recognize in himself. Players arriving become the tiebreaker in a standoff between fascination and alarm.',
    'Corval is in early-stage Choir influence: his childhood memory list has lost seventeen entries in four months. He believes this is natural. Liseth is correct that it is not. Grundt wants everyone to leave immediately. Resolution: convincing Corval to leave requires either a DC 16 Persuasion (overcome his fascination) or demonstrating to him empirically that his memory is compromised in a way he cannot deny. If he is persuaded, he becomes a valuable scholar of Choir influence. If not, Liseth and Grundt face a decision about leaving without him. The research notes he has compiled are significant and should not be left in the station.',
-   (SELECT id FROM locations WHERE slug = 'vine-station')),
+   NULL),
 
   ('The Cathedral Is Finishing Something', 'quest-cathedral-approaches', 'Veilwood', 'regional', 'available',
    'Elven scouts report that the Pale Cathedral appears larger each time they observe it from the approach zone boundary — not growing, but always revealing more of itself. The Memory-Keepers say it is always finishing something it is building. Players who have accumulated enough Veilwood knowledge may be asked to observe the approach zone and attempt to determine what the Cathedral is constructing.',
    'This is a scouting and intelligence quest, not a Cathedral confrontation. Players enter the approach zone with protection (Wisdom saves DC 16 per half-hour without it) and observe from the boundary. Arcana DC 18 on the visible structure identifies new construction in the Cathedral''s western wing that matches no architectural record. History DC 15 identifies the construction pattern as consistent with a secondary anchor — the Choir is not just inhabiting the Cathedral, it is building a sixth binding point from inside. The sixth point maps to Sylvara. This discovery should feed directly into the campaign''s central conflict.',
-   (SELECT id FROM locations WHERE slug = 'pale-cathedral-approaches')),
+   NULL),
 
   -- ── SAPPHIRE COAST QUESTS ─────────────────────────────────
 
@@ -411,7 +411,7 @@ VALUES
   ('The Lighthouse Ledger', 'quest-dark-lighthouse-amber', 'Sapphire Coast', 'regional', 'available',
    'The Dark Lighthouse on Amber Headland went dark ninety years ago when its keeper vanished. The keeper''s logbook was never found. A Black Rose archive entry from eleven years ago notes the logbook was located "in private hands — potentially significant" but the acquisition was never completed. Players can find and acquire the logbook.',
    'The logbook is held by a fishing family in Porto Verde whose great-grandmother found it floating in the water below the headland and kept it because it was a book and you kept books. They don''t know what it is. Investigation DC 12 in Porto Verde surfaces the family through old records. The logbook''s final entries describe lights below the surface of the water beneath the headland — specifically, what the keeper calls "the second lighthouse, inverted" — consistent with what Rael on Amberisle has been logging for eleven years. The keeper did not fall. He went in after the lights. The body was not recovered because he did not drown.',
-   (SELECT id FROM locations WHERE slug = 'dark-lighthouse')),
+   NULL),
 
   ('The Vor Problem', 'quest-vor-lighthouse-signals', 'Sapphire Coast', 'regional', 'available',
    'The lighthouse keeper Vor at House Talber''s northernmost station has been sending unauthorized night signals. One responding ship is from the Free Isles Compact. One is not. Selene''s Dawnharbor contact knows and has not yet decided whether to tell Selene or investigate first. Players can be drawn in from either side of this problem.',
