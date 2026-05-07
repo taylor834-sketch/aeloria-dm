@@ -103,17 +103,17 @@ export default function NPCDetailPage() {
 
       if (n.faction_id) {
         fetches.push(
-          supabase.from('factions').select('*').eq('id', n.faction_id).single().then((res) => setFaction(res.data ?? null))
+          Promise.resolve(supabase.from('factions').select('*').eq('id', n.faction_id).single()).then((res) => setFaction(res.data ?? null))
         )
       }
 
       if (n.location_id) {
         fetches.push(
-          supabase.from('locations').select('*').eq('id', n.location_id).single().then((res) => {
+          Promise.resolve(supabase.from('locations').select('*').eq('id', n.location_id).single()).then((res) => {
             const loc = res.data ?? null
             setLocation(loc)
             if (loc) {
-              supabase.from('npcs').select('*').eq('location_id', loc.id).neq('id', n.id).limit(8).then((r) => setLocationNpcs(r.data ?? []))
+              Promise.resolve(supabase.from('npcs').select('*').eq('location_id', loc.id).neq('id', n.id).limit(8)).then((r) => setLocationNpcs(r.data ?? []))
             }
           })
         )
