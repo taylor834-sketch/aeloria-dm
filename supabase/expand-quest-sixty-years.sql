@@ -5,7 +5,7 @@ UPDATE quests SET
   quest_type = 'subplot',
   status = 'hidden',
   reward_notes = 'Persuasion path: Seraphel seals the Gate permanently, her research archive becomes available to the Sentinel Order, Ashen Marches Crown Shard retrieved, Bloodmire ritual simultaneously disrupted. Combat path: Gate stopped, Crown Shard retrieved, archive recoverable, but Gate circle remains as a permanent thin spot requiring Sentinel management.'
-WHERE slug = 'sixty-years-of-wrong';
+WHERE slug = 'seraphel-redemption';
 
 UPDATE quests SET extended_notes = $notes$
 # SIXTY YEARS OF WRONG
@@ -259,4 +259,4 @@ If combat continues into Round 6, Seraphel begins the activation. She is no long
 **Daen Orveth deserves a moment.** If he's present on the top floor when Seraphel stops — if he came up behind the players, not to fight, just to see — his face when the Gate seals is worth describing. He has been waiting eleven years for this. He doesn't celebrate. He just exhales.
 
 **The "what do I do with sixty years" question is the emotional climax.** Not the fight. Not the Gate. That question. Players who have a good answer — one that isn't dismissive, one that treats her conviction as real even as it was wrong — will feel the weight of giving it. Players who say "that's your problem" will watch her close up. Both responses are valid. Only one of them is memorable.
-$notes$ WHERE slug = 'sixty-years-of-wrong';
+$notes$ WHERE slug = 'seraphel-redemption';
