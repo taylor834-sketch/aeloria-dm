@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import type { Location } from '@/types/database'
 
@@ -151,7 +152,8 @@ export default function LocationsPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {filtered.map((loc) => (
-            <div key={loc.id} className="card card-hover" style={{ display: 'flex', flexDirection: 'column' }}>
+            <Link key={loc.id} href={`/dm/locations/${loc.slug}`} style={{ textDecoration: 'none' }}>
+            <div className="card card-hover" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
               {/* Card header */}
               <div style={{ padding: '14px 16px 10px', borderBottom: '1px solid var(--color-border)' }}>
                 <div className="flex items-start gap-2 mb-2">
@@ -240,6 +242,7 @@ export default function LocationsPage() {
                 </div>
               )}
             </div>
+            </Link>
           ))}
         </div>
       )}
