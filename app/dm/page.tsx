@@ -2,486 +2,320 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import type { NPC, Faction, Quest, Player, NPCRelationship } from '@/types/database'
+import type { CampaignState, Quest, Session, NPC } from '@/types/database'
 
-type Tab = 'npcs' | 'factions' | 'quests' | 'sessions'
-
-interface NPCWithRelationships extends NPC {
-  relationships?: (NPCRelationship & { player?: Player })[]
-  faction?: Faction
-  location_name?: string
-}
-
-const attitudeLabel = (v: number) => {
-  if (v >= 4)  return { text: 'Devoted ally', color: 'text-emerald-400' }
-  if (v >= 2)  return { text: 'Friendly',     color: 'text-green-400' }
-  if (v >= 1)  return { text: 'Warm',         color: 'text-lime-400' }
-  if (v === 0) return { text: 'Neutral',      color: 'text-amber-500' }
-  if (v >= -1) return { text: 'Cool',         color: 'text-orange-400' }
-  if (v >= -3) return { text: 'Unfriendly',   color: 'text-red-400' }
-  return              { text: 'Hostile',      color: 'text-red-600' }
-}
-
-const attitudeBar = (v: number) => {
-  const pct = ((v + 5) / 10) * 100
-  const color = v >= 2 ? '#22c55e' : v >= 0 ? '#f59e0b' : '#ef4444'
+function Spinner() {
   return (
-    <div className="w-full h-1.5 bg-stone-700 rounded-full overflow-hidden">
-      <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
+    <div className="flex items-center justify-center h-64">
+      <div
+        className="w-8 h-8 rounded-full border-2 animate-spin"
+        style={{ borderColor: 'var(--color-border)', borderTopColor: 'var(--color-gold)' }}
+      />
     </div>
   )
 }
 
-export default function DMDashboard() {
-  const [tab, setTab] = useState<Tab>('npcs')
-  const [npcs, setNpcs] = useState<NPCWithRelationships[]>([])
-  const [factions, setFactions] = useState<Faction[]>([])
-  const [quests, setQuests] = useState<Quest[]>([])
-  const [players, setPlayers] = useState<Player[]>([])
-  const [selectedNPC, setSelectedNPC] = useState<NPCWithRelationships | null>(null)
+function severityBarColor(s: number): string {
+  if (s >= 5) return '#ef4444'
+  if (s >= 4) return '#f87171'
+  if (s >= 3) return '#fb923c'
+  if (s >= 2) return 'var(--color-gold)'
+  return '#6b7280'
+}
+
+function StatCard({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div
+      className="card flex flex-col gap-1 px-5 py-4"
+      style={{ minWidth: 120 }}
+    >
+      <span
+        className="font-display"
+        style={{ fontSize: 28, fontWeight: 600, color: 'var(--color-gold-light)', lineHeight: 1 }}
+      >
+        {value}
+      </span>
+      <span style={{ fontSize: 12, color: 'var(--color-parchment-dim)', letterSpacing: '0.04em' }}>
+        {label}
+      </span>
+    </div>
+  )
+}
+
+export default function DmDashboard() {
   const [loading, setLoading] = useState(true)
-  const [npcSearch, setNpcSearch] = useState('')
+  const [campaignState, setCampaignState] = useState<CampaignState[]>([])
+  const [activeQuests, setActiveQuests] = useState<Quest[]>([])
+  const [recentSessions, setRecentSessions] = useState<Session[]>([])
+  const [npcCount, setNpcCount] = useState(0)
+  const [locationCount, setLocationCount] = useState(0)
+  const [sessionCount, setSessionCount] = useState(0)
 
   useEffect(() => {
-    Promise.all([
-      supabase.from('npcs').select('*').order('is_major', { ascending: false }),
-      supabase.from('factions').select('*').order('danger_rating', { ascending: false }),
-      supabase.from('quests').select('*').order('quest_type'),
-      supabase.from('players').select('*').eq('is_active', true),
-    ]).then(([npcRes, factionRes, questRes, playerRes]) => {
-      setFactions(factionRes.data ?? [])
-      setQuests(questRes.data ?? [])
-      setPlayers(playerRes.data ?? [])
+    async function load() {
+      const [stateRes, questRes, sessionRes, npcRes, locRes] = await Promise.all([
+        supabase.from('campaign_state').select('*').order('severity', { ascending: false }),
+        supabase.from('quests').select('*').eq('status', 'active').order('created_at', { ascending: false }),
+        supabase.from('sessions').select('*').order('session_number', { ascending: false }).limit(5),
+        supabase.from('npcs').select('id', { count: 'exact', head: true }),
+        supabase.from('locations').select('id', { count: 'exact', head: true }),
+      ])
+      const allSessions = await supabase.from('sessions').select('id', { count: 'exact', head: true })
 
-      const npcData = npcRes.data ?? []
-      setNpcs(npcData.map((n) => ({
-        ...n,
-        faction: factionRes.data?.find((f) => f.id === n.faction_id),
-      })))
+      setCampaignState(stateRes.data ?? [])
+      setActiveQuests(questRes.data ?? [])
+      setRecentSessions(sessionRes.data ?? [])
+      setNpcCount(npcRes.count ?? 0)
+      setLocationCount(locRes.count ?? 0)
+      setSessionCount(allSessions.count ?? 0)
       setLoading(false)
-    })
+    }
+    load()
   }, [])
 
-  const loadNPCRelationships = async (npc: NPCWithRelationships) => {
-    const { data } = await supabase
-      .from('npc_relationships')
-      .select('*')
-      .eq('npc_id', npc.id)
+  if (loading) return <Spinner />
 
-    const enriched: (NPCRelationship & { player?: Player })[] = (data ?? []).map((r) => ({
-      ...r,
-      player: players.find((p) => p.id === r.player_id),
-    }))
-
-    // Fill in missing player entries at attitude 0
-    const allPlayerRelationships = players.map((p) => {
-      const existing = enriched.find((r) => r.player_id === p.id)
-      return existing ?? {
-        id: `placeholder-${p.id}`,
-        npc_id: npc.id,
-        player_id: p.id,
-        attitude: 0,
-        last_interaction: null,
-        memories: [],
-        updated_at: '',
-        player: p,
-      } as NPCRelationship & { player?: Player }
-    })
-
-    const updated = { ...npc, relationships: allPlayerRelationships }
-    setSelectedNPC(updated)
+  // Group campaign_state by category
+  const grouped: Record<string, CampaignState[]> = {}
+  for (const cs of campaignState) {
+    const cat = cs.category ?? 'General'
+    if (!grouped[cat]) grouped[cat] = []
+    grouped[cat].push(cs)
   }
 
-  const filteredNPCs = npcs.filter((n) =>
-    n.name.toLowerCase().includes(npcSearch.toLowerCase()) ||
-    n.role?.toLowerCase().includes(npcSearch.toLowerCase()) ||
-    n.faction?.name?.toLowerCase().includes(npcSearch.toLowerCase())
-  )
+  const avgSeverity =
+    campaignState.length > 0
+      ? campaignState.reduce((sum, cs) => sum + cs.severity, 0) / campaignState.length
+      : 0
 
-  const questsByStatus = {
-    active:    quests.filter((q) => q.status === 'active'),
-    available: quests.filter((q) => q.status === 'available'),
-    hidden:    quests.filter((q) => q.status === 'hidden'),
-    completed: quests.filter((q) => q.status === 'completed'),
+  const questTypeBadge = (type: string) => {
+    const cls =
+      type === 'main'     ? 'badge badge-main' :
+      type === 'faction'  ? 'badge badge-faction' :
+      type === 'personal' ? 'badge badge-personal' :
+      'badge badge-side'
+    return <span className={cls}>{type}</span>
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 text-amber-100 font-serif">
-      {/* ── Header ── */}
-      <header className="border-b border-amber-900/40 px-6 py-4 flex items-center justify-between">
+    <div style={{ maxWidth: 1100 }}>
+      {/* Header */}
+      <div className="mb-8">
+        <h1
+          className="font-display"
+          style={{ fontSize: 28, fontWeight: 600, color: 'var(--color-gold-light)', marginBottom: 4 }}
+        >
+          Campaign Dashboard
+        </h1>
+        <p style={{ color: 'var(--color-parchment-mid)', fontSize: 14 }}>
+          CR 847 — Age of Cracked Crowns
+        </p>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="flex gap-4 mb-8 flex-wrap">
+        <StatCard label="NPCs" value={npcCount} />
+        <StatCard label="Locations" value={locationCount} />
+        <StatCard label="Active Quests" value={activeQuests.length} />
+        <StatCard label="Sessions" value={sessionCount} />
+        <div
+          className="card flex flex-col gap-1 px-5 py-4"
+          style={{ minWidth: 160, flex: 1 }}
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <span style={{ fontSize: 12, color: 'var(--color-parchment-dim)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              World Tension
+            </span>
+            <span style={{ fontSize: 12, color: severityBarColor(avgSeverity), marginLeft: 'auto' }}>
+              {avgSeverity.toFixed(1)} / 5
+            </span>
+          </div>
+          <div style={{ height: 6, background: 'var(--color-border)', borderRadius: 999, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                borderRadius: 999,
+                width: `${(avgSeverity / 5) * 100}%`,
+                background: severityBarColor(avgSeverity),
+                transition: 'width 0.3s',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        {/* World Threats */}
         <div>
-          <h1 className="text-2xl font-bold text-amber-400 tracking-widest">ELARYN</h1>
-          <p className="text-xs text-amber-700">Dungeon Master Dashboard · 247 PA</p>
-        </div>
-        <nav className="flex gap-2">
-          {([
-            ['npcs',     'NPCs & Relations'],
-            ['factions', 'Factions'],
-            ['quests',   'Quests'],
-            ['sessions', 'Sessions'],
-          ] as [Tab, string][]).map(([t, label]) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-2 text-sm border rounded transition-colors ${
-                tab === t
-                  ? 'bg-amber-800 border-amber-500 text-amber-100'
-                  : 'bg-stone-900 border-amber-900/40 text-amber-600 hover:border-amber-700'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-          <a
-            href="/map"
-            className="px-4 py-2 text-sm border border-amber-900/40 bg-stone-900 text-amber-600 rounded hover:border-amber-700 transition-colors"
+          <h2
+            className="font-display mb-4"
+            style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-parchment-dim)', textTransform: 'uppercase', letterSpacing: '0.08em' }}
           >
-            Map →
-          </a>
-        </nav>
-      </header>
-
-      {loading ? (
-        <div className="flex items-center justify-center h-64">
-          <p className="text-amber-700 italic">Consulting the archives…</p>
-        </div>
-      ) : (
-        <main className="p-6">
-
-          {/* ═══════════════════ NPCs TAB ═══════════════════ */}
-          {tab === 'npcs' && (
-            <div className="flex gap-6 h-[calc(100vh-140px)]">
-              {/* NPC list */}
-              <div className="w-80 flex-shrink-0 flex flex-col gap-3">
-                <input
-                  value={npcSearch}
-                  onChange={(e) => setNpcSearch(e.target.value)}
-                  placeholder="Search NPCs…"
-                  className="w-full px-3 py-2 bg-stone-900 border border-amber-900/40 rounded text-sm text-amber-200 placeholder-amber-800 focus:outline-none focus:border-amber-700"
-                />
-                <div className="overflow-y-auto space-y-1.5 flex-1">
-                  {filteredNPCs.map((npc) => (
-                    <button
-                      key={npc.id}
-                      onClick={() => loadNPCRelationships(npc)}
-                      className={`w-full text-left px-3 py-2.5 rounded border transition-colors ${
-                        selectedNPC?.id === npc.id
-                          ? 'bg-amber-900/50 border-amber-600'
-                          : 'bg-stone-900/50 border-amber-900/20 hover:border-amber-800'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm text-amber-200">{npc.name}</span>
-                        {npc.is_major && (
-                          <span className="text-xs bg-amber-900 text-amber-400 px-1.5 py-0.5 rounded">MAJOR</span>
-                        )}
-                      </div>
-                      <div className="text-xs text-amber-700 mt-0.5">{npc.role}</div>
-                      {npc.faction && (
-                        <div className="text-xs text-amber-800 mt-0.5">{npc.faction.name}</div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* NPC detail panel */}
-              {selectedNPC ? (
-                <div className="flex-1 overflow-y-auto space-y-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h2 className="text-2xl font-bold text-amber-400">{selectedNPC.name}</h2>
-                      <p className="text-sm text-amber-700 mt-0.5">
-                        {selectedNPC.role}{selectedNPC.race ? ` · ${selectedNPC.race}` : ''}
-                        {selectedNPC.faction ? ` · ${selectedNPC.faction.name}` : ''}
-                      </p>
-                    </div>
-                    <div className="flex gap-1.5">
-                      {!selectedNPC.is_alive && (
-                        <span className="text-xs bg-stone-700 text-stone-400 px-2 py-1 rounded border border-stone-600">
-                          DECEASED
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Description + personality */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-stone-900/50 border border-amber-900/30 rounded p-4">
-                      <h3 className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">Appearance</h3>
-                      <p className="text-sm text-amber-200 leading-relaxed">{selectedNPC.description}</p>
-                    </div>
-                    <div className="bg-stone-900/50 border border-amber-900/30 rounded p-4">
-                      <h3 className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">Personality</h3>
-                      <p className="text-sm text-amber-200 leading-relaxed">{selectedNPC.personality}</p>
-                    </div>
-                  </div>
-
-                  {/* DM Secrets */}
-                  {selectedNPC.secrets && (
-                    <div className="bg-red-950/30 border border-red-800/50 rounded p-4">
-                      <h3 className="text-xs font-bold text-red-500 uppercase tracking-wider mb-2">
-                        ⚠ DM SECRETS — NOT FOR PLAYERS
-                      </h3>
-                      <p className="text-sm text-red-300 leading-relaxed">{selectedNPC.secrets}</p>
-                    </div>
-                  )}
-
-                  {/* Relationship matrix */}
-                  <div>
-                    <h3 className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">
-                      Player Relationships
-                    </h3>
-                    {selectedNPC.relationships && selectedNPC.relationships.length > 0 ? (
-                      <div className="space-y-3">
-                        {selectedNPC.relationships.map((rel) => {
-                          const { text, color } = attitudeLabel(rel.attitude)
-                          const memories = Array.isArray(rel.memories) ? rel.memories : []
-                          return (
-                            <div key={rel.id} className="bg-stone-900/50 border border-amber-900/20 rounded p-4">
-                              <div className="flex items-center justify-between mb-2">
-                                <div>
-                                  <span className="font-medium text-amber-300">
-                                    {rel.player?.character_name ?? 'Unknown'}
-                                  </span>
-                                  <span className="text-xs text-amber-800 ml-2">
-                                    ({rel.player?.name ?? ''})
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                  <span className={`text-sm font-medium ${color}`}>{text}</span>
-                                  <span className="text-xs text-amber-800">
-                                    {rel.attitude > 0 ? '+' : ''}{rel.attitude}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mb-2">{attitudeBar(rel.attitude)}</div>
-                              {rel.last_interaction && (
-                                <p className="text-xs text-amber-700 italic mt-1">
-                                  Last: {rel.last_interaction}
-                                </p>
-                              )}
-                              {memories.length > 0 && (
-                                <div className="mt-2 space-y-1">
-                                  <p className="text-xs text-amber-800 font-bold">Memories:</p>
-                                  {(memories as any[]).map((m: any, i: number) => (
-                                    <div key={i} className="text-xs text-amber-600 pl-2 border-l border-amber-900/40">
-                                      {m.summary}
-                                      {m.attitude_delta !== 0 && (
-                                        <span className={m.attitude_delta > 0 ? 'text-green-600' : 'text-red-600'}>
-                                          {' '}({m.attitude_delta > 0 ? '+' : ''}{m.attitude_delta})
-                                        </span>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-amber-800 italic">
-                        No player interactions recorded yet.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <p className="text-amber-800 italic">Select an NPC to view details</p>
-                </div>
-              )}
+            World Threat Indicators
+          </h2>
+          {Object.keys(grouped).length === 0 ? (
+            <div className="text-center py-16" style={{ color: 'var(--color-parchment-dim)' }}>
+              <p className="font-display text-sm">No campaign state data</p>
             </div>
-          )}
-
-          {/* ═══════════════════ FACTIONS TAB ═══════════════════ */}
-          {tab === 'factions' && (
-            <div className="grid grid-cols-2 gap-4 max-w-5xl">
-              {factions.map((f) => (
-                <div key={f.id} className="bg-stone-900/50 border border-amber-900/30 rounded p-5">
-                  <div className="flex items-start justify-between mb-2">
-                    <h2 className="font-bold text-amber-400">{f.name}</h2>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-amber-800">{f.alignment}</span>
-                      <span className="text-xs text-red-500">
-                        {'★'.repeat(f.danger_rating)}{'☆'.repeat(5 - f.danger_rating)}
-                      </span>
-                    </div>
+          ) : (
+            <div className="space-y-4">
+              {Object.entries(grouped).map(([category, items]) => (
+                <div key={category}>
+                  <p
+                    style={{ fontSize: 11, color: 'var(--color-parchment-dim)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}
+                  >
+                    {category}
+                  </p>
+                  <div className="space-y-2">
+                    {items.map((cs) => (
+                      <div
+                        key={cs.id}
+                        className="card px-4 py-3"
+                        style={{
+                          borderLeft: `3px solid ${severityBarColor(cs.severity)}`,
+                          borderRadius: '0 6px 6px 0',
+                        }}
+                      >
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div>
+                            <p
+                              className="font-display"
+                              style={{ fontSize: 13, color: 'var(--color-parchment)', fontWeight: 500 }}
+                            >
+                              {cs.label ?? cs.key}
+                            </p>
+                            {cs.value && (
+                              <p style={{ fontSize: 12, color: 'var(--color-parchment-mid)', marginTop: 2 }}>
+                                {cs.value}
+                              </p>
+                            )}
+                          </div>
+                          <span
+                            style={{
+                              fontSize: 11,
+                              color: severityBarColor(cs.severity),
+                              flexShrink: 0,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {cs.severity}/5
+                          </span>
+                        </div>
+                        <div
+                          style={{ height: 4, background: 'var(--color-border)', borderRadius: 999, overflow: 'hidden' }}
+                        >
+                          <div
+                            style={{
+                              height: '100%',
+                              borderRadius: 999,
+                              width: `${(cs.severity / 5) * 100}%`,
+                              background: severityBarColor(cs.severity),
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <p className="text-xs text-amber-600 mb-3 italic">{f.goal}</p>
-                  <p className="text-sm text-amber-200 leading-relaxed">{f.description}</p>
-                  {f.dm_notes && (
-                    <div className="mt-3 bg-red-950/20 border-l-2 border-red-800 pl-2 py-1">
-                      <p className="text-xs text-red-400">{f.dm_notes}</p>
-                    </div>
-                  )}
-
-                  {/* Player rep for this faction */}
-                  <PlayerFactionRep factionId={f.id} players={players} />
                 </div>
               ))}
             </div>
           )}
-
-          {/* ═══════════════════ QUESTS TAB ═══════════════════ */}
-          {tab === 'quests' && (
-            <div className="space-y-6 max-w-4xl">
-              {(['active', 'available', 'hidden', 'completed'] as const).map((status) => {
-                const qs = questsByStatus[status]
-                if (qs.length === 0) return null
-                return (
-                  <div key={status}>
-                    <h2 className="text-xs font-bold uppercase tracking-widest text-amber-700 mb-3">
-                      {status} ({qs.length})
-                    </h2>
-                    <div className="space-y-2">
-                      {qs.map((q) => (
-                        <div key={q.id} className={`border rounded p-4 ${
-                          status === 'active'
-                            ? 'bg-amber-950/30 border-amber-700/50'
-                            : status === 'hidden'
-                            ? 'bg-stone-900/30 border-stone-700/50'
-                            : 'bg-stone-900/50 border-amber-900/20'
-                        }`}>
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <span className="font-medium text-amber-300">{q.title}</span>
-                              <span className="text-xs text-amber-800 ml-2">
-                                {q.region} · {q.quest_type}
-                              </span>
-                            </div>
-                            <span className={`text-xs px-2 py-0.5 rounded flex-shrink-0 ${
-                              status === 'active'    ? 'bg-amber-700 text-amber-100' :
-                              status === 'hidden'    ? 'bg-stone-700 text-stone-400' :
-                              status === 'completed' ? 'bg-emerald-900 text-emerald-400' :
-                              'bg-stone-800 text-amber-600'
-                            }`}>
-                              {status}
-                            </span>
-                          </div>
-                          {q.description && (
-                            <p className="text-sm text-amber-200 mt-2 leading-relaxed">{q.description}</p>
-                          )}
-                          {q.dm_notes && (
-                            <p className="text-xs text-red-400 mt-2 pl-2 border-l border-red-800">
-                              <strong>DM:</strong> {q.dm_notes}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          )}
-
-          {/* ═══════════════════ SESSIONS TAB ═══════════════════ */}
-          {tab === 'sessions' && (
-            <div className="max-w-3xl space-y-4">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="text-lg font-bold text-amber-400">Session Log</h2>
-                <a
-                  href="/dm/upload"
-                  className="px-4 py-2 bg-amber-800 border border-amber-600 rounded text-sm hover:bg-amber-700 transition-colors"
-                >
-                  + Upload Transcript
-                </a>
-              </div>
-              <SessionList />
-            </div>
-          )}
-
-        </main>
-      )}
-    </div>
-  )
-}
-
-// ── Sub-components ────────────────────────────────
-
-function PlayerFactionRep({ factionId, players }: { factionId: string; players: Player[] }) {
-  const [reps, setReps] = useState<any[]>([])
-
-  useEffect(() => {
-    supabase
-      .from('player_faction_rep')
-      .select('*')
-      .eq('faction_id', factionId)
-      .then(({ data }) => setReps(data ?? []))
-  }, [factionId])
-
-  if (players.length === 0) return null
-
-  return (
-    <div className="mt-4 pt-3 border-t border-amber-900/30">
-      <p className="text-xs text-amber-800 font-bold uppercase tracking-wider mb-2">Player Standing</p>
-      <div className="space-y-1.5">
-        {players.map((p) => {
-          const rep = reps.find((r) => r.player_id === p.id)
-          const val = rep?.reputation ?? 0
-          const pct = ((val + 100) / 200) * 100
-          const color = val >= 30 ? '#22c55e' : val >= 0 ? '#f59e0b' : '#ef4444'
-          return (
-            <div key={p.id} className="flex items-center gap-2">
-              <span className="text-xs text-amber-600 w-24 truncate">{p.character_name}</span>
-              <div className="flex-1 h-1 bg-stone-700 rounded-full overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
-              </div>
-              <span className="text-xs text-amber-800 w-16 text-right">{rep?.rank_title ?? 'Unknown'}</span>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function SessionList() {
-  const [sessions, setSessions] = useState<any[]>([])
-
-  useEffect(() => {
-    supabase
-      .from('sessions')
-      .select('*')
-      .order('session_number', { ascending: false })
-      .then(({ data }) => setSessions(data ?? []))
-  }, [])
-
-  if (sessions.length === 0) {
-    return (
-      <div className="text-center py-16 border border-amber-900/20 rounded bg-stone-900/30">
-        <p className="text-amber-700 italic">No sessions recorded yet.</p>
-        <p className="text-amber-800 text-sm mt-2">Upload your first transcript to begin.</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-2">
-      {sessions.map((s) => (
-        <div key={s.id} className="bg-stone-900/50 border border-amber-900/20 rounded p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="font-medium text-amber-300">
-                Session {s.session_number}: {s.title ?? 'Untitled'}
-              </span>
-              <span className="text-xs text-amber-800 ml-3">{s.played_at}</span>
-            </div>
-            <span className={`text-xs px-2 py-0.5 rounded ${
-              s.processed
-                ? 'bg-emerald-900 text-emerald-400'
-                : 'bg-amber-950 text-amber-600'
-            }`}>
-              {s.processed ? 'Processed' : 'Pending'}
-            </span>
-          </div>
-          {s.summary && (
-            <p className="text-sm text-amber-200 mt-2 leading-relaxed">{s.summary}</p>
-          )}
         </div>
-      ))}
+
+        {/* Right column */}
+        <div className="space-y-6">
+          {/* Active Quests */}
+          <div>
+            <h2
+              className="font-display mb-4"
+              style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-parchment-dim)', textTransform: 'uppercase', letterSpacing: '0.08em' }}
+            >
+              Active Quests
+            </h2>
+            {activeQuests.length === 0 ? (
+              <div className="text-center py-8" style={{ color: 'var(--color-parchment-dim)' }}>
+                <p className="font-display text-sm">No active quests</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {activeQuests.map((q) => (
+                  <div key={q.id} className="card card-hover px-4 py-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <p
+                        className="font-display"
+                        style={{ fontSize: 13, color: 'var(--color-parchment)', fontWeight: 500 }}
+                      >
+                        {q.title}
+                      </p>
+                      {questTypeBadge(q.quest_type)}
+                    </div>
+                    {q.region && (
+                      <p style={{ fontSize: 11, color: 'var(--color-parchment-dim)', marginTop: 4 }}>
+                        {q.region}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Recent Sessions */}
+          <div>
+            <h2
+              className="font-display mb-4"
+              style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-parchment-dim)', textTransform: 'uppercase', letterSpacing: '0.08em' }}
+            >
+              Recent Sessions
+            </h2>
+            {recentSessions.length === 0 ? (
+              <div className="text-center py-8" style={{ color: 'var(--color-parchment-dim)' }}>
+                <p className="font-display text-sm">No sessions recorded</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {recentSessions.map((s) => (
+                  <div key={s.id} className="card card-hover px-4 py-3">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <p
+                        className="font-display"
+                        style={{ fontSize: 13, color: 'var(--color-parchment)', fontWeight: 500 }}
+                      >
+                        Session {s.session_number}
+                        {s.title ? `: ${s.title}` : ''}
+                      </p>
+                      <span
+                        className={`badge ${s.processed ? 'badge-completed' : 'badge-available'}`}
+                        style={{ flexShrink: 0 }}
+                      >
+                        {s.processed ? 'Processed' : 'Pending'}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 11, color: 'var(--color-parchment-dim)' }}>
+                      {new Date(s.played_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </p>
+                    {s.summary && (
+                      <p
+                        style={{
+                          fontSize: 12,
+                          color: 'var(--color-parchment-mid)',
+                          marginTop: 6,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {s.summary}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

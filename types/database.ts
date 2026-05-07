@@ -53,6 +53,21 @@ export interface Database {
         Insert: Omit<PlayerDiscovery, 'id'>
         Update: Partial<Omit<PlayerDiscovery, 'id'>>
       }
+      location_reputation: {
+        Row: LocationReputation
+        Insert: Omit<LocationReputation, 'id'>
+        Update: Partial<Omit<LocationReputation, 'id'>>
+      }
+      npc_quest_links: {
+        Row: NPCQuestLink
+        Insert: Omit<NPCQuestLink, 'id'>
+        Update: Partial<Omit<NPCQuestLink, 'id'>>
+      }
+      campaign_state: {
+        Row: CampaignState
+        Insert: Omit<CampaignState, 'id'>
+        Update: Partial<Omit<CampaignState, 'id'>>
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
@@ -181,4 +196,31 @@ export interface PlayerDiscovery {
   location_id: string
   discovered_at: string
   discovery_notes: string | null
+}
+
+export interface LocationReputation {
+  id: string
+  location_id: string
+  reputation: number
+  rank_title: string
+  notes: string | null
+  updated_at: string
+}
+
+export interface NPCQuestLink {
+  id: string
+  npc_id: string
+  quest_id: string
+  role: string | null
+  notes: string | null
+}
+
+export interface CampaignState {
+  id: string
+  key: string
+  value: string | null
+  label: string | null
+  category: string | null
+  severity: number
+  updated_at: string
 }

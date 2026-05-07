@@ -36,7 +36,7 @@ export default function LeafletMap({
     if (!mapRef.current || leafletRef.current) return
 
     // Dynamic import — Leaflet must be client-side only
-    import('leaflet').then((L) => {
+    import('leaflet').then(async (L) => {
       // Patch default icon path (Leaflet bug with webpack)
       delete (L.Icon.Default.prototype as any)._getIconUrl
       L.Icon.Default.mergeOptions({

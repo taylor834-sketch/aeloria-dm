@@ -180,6 +180,45 @@ create table if not exists session_events (
 );
 
 -- ─────────────────────────────────────────────
+-- LOCATION REPUTATION (party standing per town)
+-- ─────────────────────────────────────────────
+create table if not exists location_reputation (
+  id uuid primary key default gen_random_uuid(),
+  location_id uuid references locations(id) on delete cascade,
+  reputation integer default 0 check (reputation >= -100 and reputation <= 100),
+  -- -100 = hunted/exiled, 0 = unknown/neutral, +100 = heroes
+  rank_title text default 'Unknown',
+  notes text,
+  updated_at timestamptz default now(),
+  unique(location_id)
+);
+
+-- ─────────────────────────────────────────────
+-- NPC QUEST LINKS (many-to-many: NPCs involved in quests)
+-- ─────────────────────────────────────────────
+create table if not exists npc_quest_links (
+  id uuid primary key default gen_random_uuid(),
+  npc_id uuid references npcs(id) on delete cascade,
+  quest_id uuid references quests(id) on delete cascade,
+  role text, -- 'giver', 'target', 'ally', 'obstacle', 'mentioned'
+  notes text,
+  unique(npc_id, quest_id)
+);
+
+-- ─────────────────────────────────────────────
+-- CAMPAIGN STATE (DM-managed world clock)
+-- ─────────────────────────────────────────────
+create table if not exists campaign_state (
+  id uuid primary key default gen_random_uuid(),
+  key text unique not null,
+  value text,
+  label text,
+  category text, -- 'shadow_lord', 'faction', 'world_event', 'countdown'
+  severity integer default 0 check (severity >= 0 and severity <= 5),
+  updated_at timestamptz default now()
+);
+
+-- ─────────────────────────────────────────────
 -- ROW LEVEL SECURITY (basic setup)
 -- ─────────────────────────────────────────────
 alter table players enable row level security;
@@ -193,13 +232,17 @@ alter table player_quests enable row level security;
 alter table sessions enable row level security;
 alter table session_events enable row level security;
 alter table player_discoveries enable row level security;
+alter table location_reputation enable row level security;
+alter table npc_quest_links enable row level security;
+alter table campaign_state enable row level security;
 
 -- Allow all reads via anon key (the app handles DM-vs-player logic in code)
 do $$ declare t text; begin
   foreach t in array array[
     'players','locations','npcs','npc_relationships','factions',
     'player_faction_rep','quests','player_quests','sessions',
-    'session_events','player_discoveries'
+    'session_events','player_discoveries','location_reputation',
+    'npc_quest_links','campaign_state'
   ] loop
     execute format('drop policy if exists "Public read" on %I', t);
     execute format('create policy "Public read" on %I for select using (true)', t);

@@ -1,61 +1,63 @@
 import Link from 'next/link'
+import { Shield, BookOpen, Crown } from 'lucide-react'
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-stone-950 text-amber-100 font-serif flex flex-col items-center justify-center p-8">
-      <div className="max-w-lg w-full text-center space-y-8">
-        <div>
-          <h1 className="text-5xl font-bold text-amber-400 tracking-widest mb-3">AELORIA</h1>
-          <p className="text-amber-700 italic text-lg">A world 300 years into its unraveling</p>
-          <div className="mt-3 w-24 h-px bg-amber-800 mx-auto" />
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: 'var(--color-bg)' }}>
 
-        <div className="grid grid-cols-1 gap-4 text-left">
-          <Link href="/dm" className="group block bg-stone-900 border border-amber-900/40 rounded-lg p-5 hover:border-amber-700 transition-colors">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-bold text-amber-400 group-hover:text-amber-300">DM Dashboard</h2>
-              <span className="text-amber-800 group-hover:text-amber-600">→</span>
-            </div>
-            <p className="text-sm text-amber-700 leading-relaxed">
-              NPCs and relationship matrix, faction standings, quest tracker, session log. DM eyes only.
-            </p>
-          </Link>
-
-          <Link href="/map" className="group block bg-stone-900 border border-amber-900/40 rounded-lg p-5 hover:border-amber-700 transition-colors">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-bold text-amber-400 group-hover:text-amber-300">World Map</h2>
-              <span className="text-amber-800 group-hover:text-amber-600">→</span>
-            </div>
-            <p className="text-sm text-amber-700 leading-relaxed">
-              Interactive map of Aeloria. Click any town or dungeon for full details and DM notes.
-            </p>
-          </Link>
-
-          <Link href="/player" className="group block bg-stone-900 border border-amber-900/40 rounded-lg p-5 hover:border-amber-700 transition-colors">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-bold text-amber-400 group-hover:text-amber-300">Player View</h2>
-              <span className="text-amber-800 group-hover:text-amber-600">→</span>
-            </div>
-            <p className="text-sm text-amber-700 leading-relaxed">
-              Discovered map with fog of war, active quests, known NPCs, session journal.
-            </p>
-          </Link>
-
-          <Link href="/dm/upload" className="group block bg-stone-900 border border-amber-900/40 rounded-lg p-5 hover:border-amber-700 transition-colors">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-bold text-amber-400 group-hover:text-amber-300">Upload Session</h2>
-              <span className="text-amber-800 group-hover:text-amber-600">→</span>
-            </div>
-            <p className="text-sm text-amber-700 leading-relaxed">
-              Paste a session transcript. Claude reads it and updates all NPCs, quests, relationships, and the map.
-            </p>
-          </Link>
-        </div>
-
-        <p className="text-xs text-amber-900">
-          Built for the Aeloria campaign · Next.js + Supabase + Claude
+      {/* Header */}
+      <div className="mb-10 flex flex-col items-center gap-3">
+        <Crown size={28} style={{ color: 'var(--color-gold)' }} />
+        <h1 className="font-display text-3xl tracking-widest uppercase" style={{ color: 'var(--color-parchment)' }}>
+          Aeloria
+        </h1>
+        <p className="text-xs tracking-widest uppercase" style={{ color: 'var(--color-parchment-dim)', letterSpacing: '0.2em' }}>
+          Age of Cracked Crowns
         </p>
+        <div className="w-32 h-px mt-1" style={{ background: 'var(--color-gold-dim)' }} />
       </div>
-    </main>
+
+      {/* Portal cards */}
+      <div className="flex gap-6 w-full max-w-xl px-6">
+
+        <Link href="/dm" className="flex-1 group">
+          <div className="card card-hover glow-gold p-8 flex flex-col items-center gap-4 text-center"
+            style={{ transition: 'border-color 0.2s, background-color 0.2s' }}>
+            <div className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(201,160,68,0.1)', border: '1px solid var(--color-gold-dim)' }}>
+              <Shield size={22} style={{ color: 'var(--color-gold)' }} />
+            </div>
+            <div>
+              <h2 className="font-display text-lg mb-1" style={{ color: 'var(--color-gold-light)' }}>Dungeon Master</h2>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--color-parchment-dim)' }}>
+                Full campaign access — NPCs, locations, sessions, world state
+              </p>
+            </div>
+          </div>
+        </Link>
+
+        <Link href="/player" className="flex-1 group">
+          <div className="card card-hover p-8 flex flex-col items-center gap-4 text-center"
+            style={{ transition: 'border-color 0.2s, background-color 0.2s' }}>
+            <div className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(184,158,122,0.08)', border: '1px solid var(--color-border-bright)' }}>
+              <BookOpen size={22} style={{ color: 'var(--color-parchment-mid)' }} />
+            </div>
+            <div>
+              <h2 className="font-display text-lg mb-1" style={{ color: 'var(--color-parchment)' }}>Player View</h2>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--color-parchment-dim)' }}>
+                Quest log, session journal, NPC standings, fog of war map
+              </p>
+            </div>
+          </div>
+        </Link>
+
+      </div>
+
+      <p className="mt-12 text-xs" style={{ color: 'var(--color-parchment-dim)', opacity: 0.35 }}>
+        CR 847 · The crown is broken. The bells are silent.
+      </p>
+
+    </div>
   )
 }

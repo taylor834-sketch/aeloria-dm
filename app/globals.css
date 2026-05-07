@@ -1,35 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
-
-/* Leaflet CSS — must be loaded globally */
 @import "leaflet/dist/leaflet.css";
 
-:root {
-  --background: #0c0a06;
-  --foreground: #f5e8cc;
+/* ─── AELORIA DESIGN TOKENS ─────────────────────────────────────────────── */
+@theme {
+  --color-bg:            #0a0907;
+  --color-surface:       #131110;
+  --color-surface-raised:#1a1714;
+  --color-surface-hover: #201d19;
+  --color-border:        #2a2218;
+  --color-border-bright: #4a3a28;
+
+  --color-gold:          #c9a044;
+  --color-gold-light:    #e8c870;
+  --color-gold-dim:      #7a5f28;
+
+  --color-parchment:     #e8d5b0;
+  --color-parchment-mid: #b89e7a;
+  --color-parchment-dim: #7a6848;
+
+  --color-crimson:       #8b1e1e;
+  --color-crimson-bright:#c93030;
+  --color-emerald:       #1a5c30;
+  --color-emerald-bright:#2a8a48;
+  --color-amber-tone:    #8a6020;
+  --color-amber-bright:  #c48820;
+
+  --color-shadow-blue:   #1a2040;
+  --color-void:          #0a0810;
+
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 }
+
+/* ─── BASE ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Georgia, 'Times New Roman', serif;
+  min-height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-parchment);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Leaflet container fix */
-.leaflet-container {
-  background: #1a1008;
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  color: var(--color-parchment);
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
+/* ─── SCROLLBAR ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-dim); }
+
+/* ─── LEAFLET ────────────────────────────────────────────────────────────── */
+.leaflet-container { background: #0a0c14; }
+.leaflet-control-zoom a {
+  background: var(--color-surface) !important;
+  color: var(--color-parchment) !important;
+  border-color: var(--color-border) !important;
 }
-::-webkit-scrollbar-track {
-  background: #1a1208;
+
+/* ─── UTILITY CLASSES ────────────────────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.text-gold    { color: var(--color-gold); }
+.text-parchment { color: var(--color-parchment); }
+.text-dim     { color: var(--color-parchment-dim); }
+.text-mid     { color: var(--color-parchment-mid); }
+
+.bg-surface   { background-color: var(--color-surface); }
+.bg-raised    { background-color: var(--color-surface-raised); }
+.border-tone  { border-color: var(--color-border); }
+.border-bright { border-color: var(--color-border-bright); }
+
+/* Card base */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
 }
-::-webkit-scrollbar-thumb {
-  background: #4a3a20;
-  border-radius: 3px;
+.card-hover {
+  transition: border-color 0.15s, background-color 0.15s;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #6a5a30;
+.card-hover:hover {
+  border-color: var(--color-border-bright);
+  background: var(--color-surface-raised);
 }
+
+/* Gold rule divider */
+.rule-gold {
+  border: none;
+  border-top: 1px solid var(--color-gold-dim);
+  opacity: 0.4;
+}
+
+/* Attitude bar gradient */
+.attitude-bar-track {
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* Glow effect for important elements */
+.glow-gold {
+  box-shadow: 0 0 12px rgba(201, 160, 68, 0.15);
+}
+
+/* Sidebar nav item */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  color: var(--color-parchment-mid);
+  font-size: 13px;
+  transition: color 0.15s, background-color 0.15s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-item:hover {
+  color: var(--color-parchment);
+  background: var(--color-surface-raised);
+}
+.nav-item.active {
+  color: var(--color-gold);
+  background: rgba(201, 160, 68, 0.08);
+}
+.nav-item.active svg {
+  color: var(--color-gold);
+}
+
+/* Badge base */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* Status-specific badge colors */
+.badge-active    { background: rgba(201, 160, 68, 0.12); color: var(--color-gold-light); border: 1px solid rgba(201, 160, 68, 0.25); }
+.badge-completed { background: rgba(42, 138, 72, 0.12); color: #4ade80; border: 1px solid rgba(42, 138, 72, 0.25); }
+.badge-failed    { background: rgba(139, 30, 30, 0.15); color: #f87171; border: 1px solid rgba(139, 30, 30, 0.3); }
+.badge-available { background: rgba(74, 58, 40, 0.3); color: var(--color-parchment-mid); border: 1px solid var(--color-border-bright); }
+.badge-hidden    { background: rgba(26, 32, 64, 0.3); color: #93c5fd; border: 1px solid rgba(99, 130, 201, 0.25); }
+.badge-main      { background: rgba(139, 30, 30, 0.12); color: #fca5a5; border: 1px solid rgba(139, 30, 30, 0.25); }
+.badge-side      { background: rgba(74, 58, 40, 0.2); color: var(--color-parchment-dim); border: 1px solid var(--color-border); }
+.badge-faction   { background: rgba(42, 62, 138, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 130, 201, 0.2); }
+.badge-personal  { background: rgba(130, 42, 138, 0.12); color: #d8b4fe; border: 1px solid rgba(130, 42, 200, 0.2); }
+
+/* Danger level indicators */
+.danger-1 { color: #9ca3af; }
+.danger-2 { color: var(--color-gold-light); }
+.danger-3 { color: #fb923c; }
+.danger-4 { color: #f87171; }
+.danger-5 { color: #ef4444; }

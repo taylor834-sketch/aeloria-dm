@@ -644,3 +644,117 @@ insert into quests (title, slug, region, quest_type, status, description, dm_not
    'A character investment quest for Brunhild. Players who investigate demonstrate reliability to her — which unlocks fuller access to her intelligence files. The courier is alive, detained at a Frost Giant patrol''s holding point, not mistreated but not released. He has two weeks of observation notes that are useful for Frostgale Keep approach planning.')
 
 on conflict (slug) do nothing;
+
+
+-- ─────────────────────────────────────────────────────────────
+-- WIRE UP NPC FOREIGN KEYS (faction_id + location_id)
+-- ─────────────────────────────────────────────────────────────
+update npcs set faction_id = (select id from factions where slug = 'crown-loyalists')
+  where slug = 'elowen-valemont';
+update npcs set faction_id = (select id from factions where slug = 'blackwell-pact')
+  where slug = 'garron-blackwell';
+update npcs set faction_id = (select id from factions where slug = 'shadow-cabal')
+  where slug in ('caedric-valemont', 'seraphel-noct');
+update npcs set faction_id = (select id from factions where slug = 'sentinel-order')
+  where slug in ('elyndra', 'vorath');
+update npcs set faction_id = (select id from factions where slug = 'black-rose')
+  where slug = 'duchess-selene';
+update npcs set faction_id = (select id from factions where slug = 'iron-wolves')
+  where slug = 'rusk-varran';
+update npcs set faction_id = (select id from factions where slug = 'darian-empire')
+  where slug in ('caelan-darius-iv', 'aris-dawn', 'high-chancellor-cale');
+update npcs set faction_id = (select id from factions where slug = 'bloodmire-cult')
+  where slug = 'pale-shepherd';
+update npcs set faction_id = (select id from factions where slug = 'free-isles-compact')
+  where slug = 'elara-wynn';
+
+update npcs set location_id = (select id from locations where slug = 'vaelthorn')
+  where slug in ('elowen-valemont', 'caedric-valemont', 'archpriest-vas');
+update npcs set location_id = (select id from locations where slug = 'fort-ashveil')
+  where slug in ('garron-blackwell', 'rusk-varran');
+update npcs set location_id = (select id from locations where slug = 'ashen-spire')
+  where slug = 'seraphel-noct';
+update npcs set location_id = (select id from locations where slug = 'sylvara')
+  where slug = 'elyndra';
+update npcs set location_id = (select id from locations where slug = 'dawnharbor')
+  where slug = 'duchess-selene';
+update npcs set location_id = (select id from locations where slug = 'frostgale-keep')
+  where slug in ('varkhul', 'korra');
+update npcs set location_id = (select id from locations where slug = 'ashval')
+  where slug in ('vorath', 'doria-vehn');
+update npcs set location_id = (select id from locations where slug = 'caldrath')
+  where slug in ('caelan-darius-iv', 'high-chancellor-cale');
+update npcs set location_id = (select id from locations where slug = 'ironwatch')
+  where slug = 'aris-dawn';
+update npcs set location_id = (select id from locations where slug = 'coldrun')
+  where slug = 'brunhild-thuldrun';
+update npcs set location_id = (select id from locations where slug = 'millhaven')
+  where slug = 'mira-solt';
+update npcs set location_id = (select id from locations where slug = 'bloodmire-depths')
+  where slug = 'pale-shepherd';
+
+
+-- ─────────────────────────────────────────────────────────────
+-- WIRE UP QUEST FOREIGN KEYS (location_id + giver_npc_id)
+-- ─────────────────────────────────────────────────────────────
+update quests set location_id = (select id from locations where slug = 'thornwick')
+  where slug = 'bell-at-thornwick';
+update quests set giver_npc_id = (select id from npcs where slug = 'mira-solt')
+  where slug = 'millhaven-blight';
+update quests set location_id = (select id from locations where slug = 'ashen-spire')
+  where slug = 'gate-of-unbecoming';
+update quests set location_id = (select id from locations where slug = 'vaelthorn')
+  where slug in ('succession-crisis', 'cracked-crown');
+update quests set location_id = (select id from locations where slug = 'frostgale-keep')
+  where slug = 'frost-and-blood';
+update quests set location_id = (select id from locations where slug = 'pale-cathedral')
+  where slug = 'the-forgetting';
+update quests set location_id = (select id from locations where slug = 'bloodmire-depths')
+  where slug = 'hungry-dark';
+
+
+-- ─────────────────────────────────────────────────────────────
+-- NPC ↔ QUEST LINKS
+-- ─────────────────────────────────────────────────────────────
+insert into npc_quest_links (npc_id, quest_id, role) values
+  ((select id from npcs where slug='elowen-valemont'),   (select id from quests where slug='cracked-crown'),       'ally'),
+  ((select id from npcs where slug='seraphel-noct'),     (select id from quests where slug='cracked-crown'),       'target'),
+  ((select id from npcs where slug='garron-blackwell'),  (select id from quests where slug='cracked-crown'),       'obstacle'),
+  ((select id from npcs where slug='caedric-valemont'),  (select id from quests where slug='cracked-crown'),       'obstacle'),
+  ((select id from npcs where slug='elyndra'),           (select id from quests where slug='cracked-crown'),       'ally'),
+  ((select id from npcs where slug='seraphel-noct'),     (select id from quests where slug='gate-of-unbecoming'), 'target'),
+  ((select id from npcs where slug='elyndra'),           (select id from quests where slug='gate-of-unbecoming'), 'ally'),
+  ((select id from npcs where slug='elowen-valemont'),   (select id from quests where slug='bell-at-thornwick'),  'mentioned'),
+  ((select id from npcs where slug='elowen-valemont'),   (select id from quests where slug='succession-crisis'),  'giver'),
+  ((select id from npcs where slug='garron-blackwell'),  (select id from quests where slug='succession-crisis'),  'obstacle'),
+  ((select id from npcs where slug='caedric-valemont'),  (select id from quests where slug='succession-crisis'),  'obstacle'),
+  ((select id from npcs where slug='mira-solt'),         (select id from quests where slug='hungry-dark'),        'ally'),
+  ((select id from npcs where slug='vorath'),            (select id from quests where slug='hungry-dark'),        'ally'),
+  ((select id from npcs where slug='pale-shepherd'),     (select id from quests where slug='hungry-dark'),        'target'),
+  ((select id from npcs where slug='elyndra'),           (select id from quests where slug='the-forgetting'),     'ally'),
+  ((select id from npcs where slug='varkhul'),           (select id from quests where slug='frost-and-blood'),    'target'),
+  ((select id from npcs where slug='brunhild-thuldrun'), (select id from quests where slug='frost-and-blood'),    'ally'),
+  ((select id from npcs where slug='caelan-darius-iv'),  (select id from quests where slug='imperial-gambit'),    'obstacle'),
+  ((select id from npcs where slug='aris-dawn'),         (select id from quests where slug='imperial-gambit'),    'ally'),
+  ((select id from npcs where slug='duchess-selene'),    (select id from quests where slug='black-rose-thorns'), 'giver')
+
+on conflict (npc_id, quest_id) do nothing;
+
+
+-- ─────────────────────────────────────────────────────────────
+-- CAMPAIGN STATE — World clock and awakening progress
+-- ─────────────────────────────────────────────────────────────
+insert into campaign_state (key, label, value, category, severity) values
+  ('nhalzeruun_awakening',    'Nhal''Zeruun — The Hunger stirs beneath the Marches',       '15',      'shadow_lord',  2),
+  ('vaulkhesh_awakening',     'Vaul-Khesh — War drums echo from Frostgale Keep',           '10',      'shadow_lord',  1),
+  ('pale_choir_awakening',    'The Pale Choir — Forgetting spreads through the Veilwood',  '20',      'shadow_lord',  2),
+  ('ulraeth_awakening',       'Ulraeth the Unmoored — Time frays near the Isles',          '5',       'shadow_lord',  1),
+  ('mother_last_door',        'Mother of the Last Door — The dead stir under Vaelthorn',   '25',      'shadow_lord',  3),
+  ('darkgate_countdown',      'Darkgate — Estimated days until Seraphel''s ritual',        '247',     'world_event',  4),
+  ('bell_thornwick_silenced', 'Thornwick Bell — Silenced nine days ago',                   'true',    'world_event',  3),
+  ('blackwell_advance',       'Blackwell''s Army — Staged at Fort Ashveil, waiting',       'Holding', 'faction',      2),
+  ('darian_patience',         'Darian Empire — Annexation window opens in one season',     'Watching','faction',      3),
+  ('crown_shard_vaelthorn',   'Crown Shard #1 — Vault of the Founding Kings (unrecovered)','unrecovered','world_event',2),
+  ('crown_shards_recovered',  'Crown Shards Recovered',                                    '0/5',     'world_event',  1)
+
+on conflict (key) do nothing;
