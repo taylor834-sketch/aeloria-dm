@@ -1,38 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { createServiceClient } from '@/lib/supabase'
 
-// Map quest slugs to campaign file paths
-const QUEST_FILE_MAP: Record<string, string> = {
-  'bell-at-thornwick':  'quests/main/bell-at-thornwick.md',
-  'cracked-crown':      'quests/main/cracked-crown.md',
-  'hungry-dark':        'quests/main/hungry-dark.md',
-  'frost-and-blood':    'quests/main/frost-and-blood.md',
-  'the-forgetting':     'quests/main/the-forgetting.md',
-  'imperial-gambit':    'quests/main/imperial-gambit.md',
-  'black-rose-thorns':  'quests/regional/black-rose-thorns.md',
-  'fog-and-freedom':    'quests/regional/fog-and-freedom.md',
-  'the-singing-ruins':  'quests/ashfields/the-singing-ruins.md',
-  'the-vane-lands':     'quests/hearthlands/the-vane-lands.md',
-  'the-fog-ships':      'quests/saltmere/the-fog-ships.md',
-}
+export const dynamic = 'force-dynamic'
 
-const CAMPAIGN_DIR = process.env.CAMPAIGN_DIR ?? 'C:\\Users\\taylo\\CampaignWriter'
-
+// Quest extended notes now live in Supabase (quests.extended_notes column)
+// This route is kept for backwards compatibility but reads from DB not filesystem
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
-  const relativePath = QUEST_FILE_MAP[params.slug]
-  if (!relativePath) {
-    return NextResponse.json({ content: null }, { status: 200 })
-  }
+  const { slug } = await context.params
+  const db = createServiceClient()
 
-  try {
-    const filePath = path.join(CAMPAIGN_DIR, relativePath)
-    const content = fs.readFileSync(filePath, 'utf-8')
-    return NextResponse.json({ content })
-  } catch {
-    return NextResponse.json({ content: null }, { status: 200 })
-  }
+  const { data } = await db
+    .from('quests')
+    .select('extended_notes')
+    .eq('slug', slug)
+    .single()
+
+  return NextResponse.json({ content: (data as any)?.extended_notes ?? null })
 }
