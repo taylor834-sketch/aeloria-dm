@@ -1,8 +1,44 @@
 -- =============================================================
 -- AELORIA SEED DATA — Age of Cracked Crowns
--- World: 7 regions, 76 locations, 22 NPCs, 4-tier quest structure
--- Run after schema.sql
+-- 7 regions · 76 locations · 21 major NPCs · 25 quests · 10 factions
+-- Run after schema.sql  |  Safe to re-run: ON CONFLICT DO NOTHING
 -- =============================================================
+
+-- ─────────────────────────────────────────────────────────────
+-- CLEAR EXISTING SEED DATA (safe re-run — preserves player data)
+-- ─────────────────────────────────────────────────────────────
+truncate table npc_quest_links   restart identity cascade;
+truncate table campaign_state    restart identity cascade;
+delete from quests        where slug in (
+  'cracked-crown','gate-of-unbecoming','succession-crisis',
+  'elowen-sacrifice','elyndra-bloodline','seraphel-redemption','vorath-arc','varkhul-manipulation',
+  'bell-at-thornwick','hungry-dark','frost-and-blood','the-forgetting',
+  'imperial-gambit','black-rose-thorns','fog-and-freedom',
+  'mirepost-pell','tidecrest-nets','ironwatch-refugees','stonefall-directive','coldrun-courier'
+);
+delete from npcs          where slug in (
+  'elowen-valemont','garron-blackwell','caedric-valemont','seraphel-noct',
+  'elyndra','duchess-selene','rusk-varran','varkhul','vorath','caelan-darius-iv',
+  'brunhild-thuldrun','archpriest-vas','doria-vehn','elara-wynn','aris-dawn',
+  'high-chancellor-cale','mira-solt','korra','pale-shepherd'
+);
+delete from factions      where slug in (
+  'crown-loyalists','blackwell-pact','shadow-cabal','iron-wolves','sentinel-order',
+  'darian-empire','black-rose','pale-wanderers','bloodmire-cult','free-isles-compact'
+);
+delete from locations     where slug in (
+  'vaelthorn','lighthaven','thornwick','dunmore','millhaven','fort-ashveil',
+  'greyveil','crowns-rest','valemont-abbey','brokenwall','ley-confluence',
+  'shadowspire-ruins','vault-founding-kings','thornharbor',
+  'ashval','cinderpost','ashen-spire','bloodmire-depths','bloodmire-swamp','hollows-eye','ashveil-ruins',
+  'sylvara','mirepost','pale-cathedral','whispering-glade','deepwood-threshold','velars-observatory','rootfast','memory-grove',
+  'frostgale-keep','coldrun','stoneback-pass','vaul-khesh-scar','deepvault','highwatch','frost-market',
+  'caldrath','ironwatch','stonefall','ironclad-undercroft','hearthstone','imperial-archive','silverrun','valdraths-gate','thorngate-station',
+  'dawnharbor','tidecrest','selenes-estate','bleakwater-cove','amber-road-terminus','lighthouse-aethon','black-thorn-inn',
+  'saltmere','caldera-isle','wraith-galleon','fog-wall','stonespire-isle','drowned-archive','miras-point'
+);
+
+
 
 
 -- ─────────────────────────────────────────────────────────────
@@ -699,8 +735,9 @@ update npcs set location_id = (select id from locations where slug = 'bloodmire-
 -- ─────────────────────────────────────────────────────────────
 update quests set location_id = (select id from locations where slug = 'thornwick')
   where slug = 'bell-at-thornwick';
-update quests set giver_npc_id = (select id from npcs where slug = 'mira-solt')
-  where slug = 'millhaven-blight';
+update quests set giver_npc_id = (select id from npcs where slug = 'mira-solt'),
+  location_id = (select id from locations where slug = 'millhaven')
+  where slug = 'hungry-dark';
 update quests set location_id = (select id from locations where slug = 'ashen-spire')
   where slug = 'gate-of-unbecoming';
 update quests set location_id = (select id from locations where slug = 'vaelthorn')
