@@ -170,7 +170,7 @@ export default function LocationDetailPage() {
       setQuests(questList)
       setReputation(repRes.data ?? null)
       setAllNpcs(allNpcList as NPC[])
-      setAllLocations(allLocRes.data ?? [])
+      setAllLocations((allLocRes.data ?? []) as unknown as Location[])
       setLoading(false)
     }
     load()
