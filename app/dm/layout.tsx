@@ -11,6 +11,7 @@ import {
   BookOpen,
   UserCog,
   Crown,
+  Play,
 } from 'lucide-react'
 
 interface NavItem {
@@ -30,6 +31,10 @@ const campaignNav: NavItem[] = [
   { href: '/dm/npcs',      label: 'NPCs',        icon: <Users size={16} /> },
   { href: '/dm/factions',  label: 'Factions',    icon: <Shield size={16} /> },
   { href: '/dm/quests',    label: 'Quests',      icon: <ScrollText size={16} /> },
+]
+
+const tonightNav: NavItem[] = [
+  { href: '/dm/run', label: 'Run Session', icon: <Play size={16} /> },
 ]
 
 const sessionNav: NavItem[] = [
@@ -117,6 +122,19 @@ export default function DmLayout({ children }: { children: React.ReactNode }) {
               Campaign
             </p>
             {campaignNav.map((item) => (
+              <NavLink key={item.href} item={item} pathname={pathname} />
+            ))}
+          </div>
+
+          {/* Tonight section */}
+          <div>
+            <p
+              className="px-3 mb-1"
+              style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-parchment-dim)', textTransform: 'uppercase' }}
+            >
+              Tonight
+            </p>
+            {tonightNav.map((item) => (
               <NavLink key={item.href} item={item} pathname={pathname} />
             ))}
           </div>
